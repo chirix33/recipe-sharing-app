@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { sumana } from "@/app/ui/fonts";
+import { quicksand } from "@/app/ui/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sumana.className} antialiased`}
+        className={`${quicksand.className} antialiased`}
       >
         {children}
       </body>

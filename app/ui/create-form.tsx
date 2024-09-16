@@ -72,7 +72,7 @@ export default function CreateForm() {
                   className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 focus:outline-mallard-500"
                   id="cPassword"
                   type="password"
-                  name="cpassword"
+                  name="cPassword"
                   placeholder="Re enter password"
                   required
                   minLength={6}
@@ -97,6 +97,22 @@ export default function CreateForm() {
           <div className="flex h-8 items-end space-x-1" aria-live="polite">
           {
           updatedFormState?.errors?.email && updatedFormState?.errors?.email.map((error) =>
+            <>
+              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+              <p className="text-sm text-red-500">{error}</p>
+            </>
+          )
+          }
+          {
+          updatedFormState?.errors?.password && updatedFormState?.errors?.password.map((error) =>
+            <>
+              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+              <p className="text-sm text-red-500">{error}</p>
+            </>
+          )
+          }
+          {
+          updatedFormState?.errors?.cPassword && updatedFormState?.errors?.cPassword.map((error) =>
             <>
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
               <p className="text-sm text-red-500">{error}</p>

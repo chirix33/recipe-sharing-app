@@ -8,6 +8,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
+import { generateColor } from './functions';
 
 // Function to authenticate user using form data
 // Use the signIn function from next-auth to authenticate user
@@ -60,6 +62,7 @@ export async function validate(prevState: FormState, formData: FormData) {
     );
 
     if (!validatedFields.success) {
+        console.log('Form data is invalid.');
         return { errors: validatedFields.error.flatten().fieldErrors };
     }
 
@@ -68,6 +71,8 @@ export async function validate(prevState: FormState, formData: FormData) {
     if (password !== cPassword) {
         return { errors: { cPassword: ['Passwords do not match.'] } };
     }
+    
+    const id = undefined;
 
     try {
         // Check if email is already in use
@@ -79,7 +84,9 @@ export async function validate(prevState: FormState, formData: FormData) {
 
         // Create the user object and insert it into users.json
         const id = randomUUID();
-        const picture = `https://avatars.dicebear.com/api/avataaars/${id}.svg`;
+        const username = email.split('@')[0];
+        const color = generateColor();
+        const picture = `https://api.dicebear.com/9.x/adventurer/svg?seed=${username}&flip=true&backgroundColor=${color}`;
         
         const user: User = { id, email, password, image: picture, accountType: 'email' };
         const allUsers = JSON.parse(await fs.readFile(path.join(process.cwd(), 'app', 'data', 'users.json'), 'utf-8'));
@@ -91,5 +98,6 @@ export async function validate(prevState: FormState, formData: FormData) {
         return { errors: { email: ['Failed to validate form.'] } };
     }
 
-    redirect('/login?account=created');
+    revalidatePath('/create');
+    redirect('/dashboard');
 }
