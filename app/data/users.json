@@ -2,6 +2,7 @@
   "users": [
     {
       "id": "1",
+      "name": "Ashraf Chiri",
       "email": "chiriashraf@gmail.com",
       "password": "ashrafhacker",
       "image": "https://example.com/profiles/johndoe.jpg",
@@ -9,10 +10,35 @@
     },
     {
       "id": "3d5c8ec7-68ad-4d06-a4c0-08771511f3f5",
+      "name": "Chirix Team",
       "email": "chirixteam@gmail.com",
       "password": "ashrafhacker",
       "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=chirixteam&flip=true&backgroundColor=33FFF1",
       "accountType": "email"
+    },
+    {
+      "id": "2eee5a4d-4a66-4bb0-b784-e205d872aad2",
+      "name": "Alicia Goulet",
+      "email": "gouleta242@gmail.com",
+      "password": "",
+      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=gouleta242&flip=true&backgroundColor=FF3333",
+      "accountType": "google"
+    },
+    {
+      "id": "710ea7af-b1af-4277-960c-73442bb7c095",
+      "name": "Sarah Fobi",
+      "email": "sarahfobi@gmail.com",
+      "password": "ashrafhacker",
+      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=sarahfobi&flip=true&backgroundColor=FF5733",
+      "accountType": "email"
+    },
+    {
+      "id": "cc71333d-c4c8-4d74-92a2-f4dce143b568",
+      "name": "Zachary Bastas",
+      "email": "bastaszachary@gmail.com",
+      "password": "",
+      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=bastaszachary&flip=true&backgroundColor=FF33A6",
+      "accountType": "google"
     }
   ]
 }

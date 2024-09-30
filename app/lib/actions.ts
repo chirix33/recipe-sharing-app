@@ -8,14 +8,15 @@ import fs from 'fs/promises';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
+import { createUser } from './functions';
 import { generateColor } from './functions';
 
 // Function to authenticate user using form data
 // Use the signIn function from next-auth to authenticate user
 export async function authenticate(prevState: string | undefined, formData: FormData) {
+    const loginType = formData.get('type') as string;
     try {
-        await signIn('credentials', formData);
+        await signIn(loginType, formData);
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {
@@ -41,6 +42,7 @@ async function checkEmail(email: string) {
 // State to manage the create account form
 export type FormState = {
     errors? : {
+        name?: string[],
         email?: string[],
         password?: string[],
         cPassword?: string[]
@@ -50,12 +52,14 @@ export type FormState = {
 // Function to validate form data to create an account
 export async function validate(prevState: FormState, formData: FormData) {
     const schema = z.object({
+        name: z.string({invalid_type_error: "Name must be a string"}).min(3, { message: 'Name must be at least 3 characters long.' }),
         email: z.string().email(),
         password: z.string().min(6),
         cPassword: z.string().min(6)
     });
 
     const validatedFields = schema.safeParse({
+        name: formData.get('name'),
         email: formData.get('email'),
         password: formData.get('password'),
         cPassword: formData.get('cPassword')}
@@ -66,13 +70,11 @@ export async function validate(prevState: FormState, formData: FormData) {
         return { errors: validatedFields.error.flatten().fieldErrors };
     }
 
-    const { email, password, cPassword } = validatedFields.data;
+    const { name, email, password, cPassword } = validatedFields.data;
     
     if (password !== cPassword) {
         return { errors: { cPassword: ['Passwords do not match.'] } };
     }
-    
-    const id = undefined;
 
     try {
         // Check if email is already in use
@@ -83,21 +85,11 @@ export async function validate(prevState: FormState, formData: FormData) {
         }
 
         // Create the user object and insert it into users.json
-        const id = randomUUID();
-        const username = email.split('@')[0];
-        const color = generateColor();
-        const picture = `https://api.dicebear.com/9.x/adventurer/svg?seed=${username}&flip=true&backgroundColor=${color}`;
-        
-        const user: User = { id, email, password, image: picture, accountType: 'email' };
-        const allUsers = JSON.parse(await fs.readFile(path.join(process.cwd(), 'app', 'data', 'users.json'), 'utf-8'));
-        allUsers.users.push(user);
-        await fs.writeFile(path.join(process.cwd(), 'app', 'data', 'users.json'), JSON.stringify(allUsers, null, 2));
-        authenticate('create', formData);
+        await createUser(name, email, password, 'email');
     } catch (error) {
         console.error('Failed to validate form:', error);
         return { errors: { email: ['Failed to validate form.'] } };
     }
 
-    revalidatePath('/create');
     redirect('/dashboard');
 }

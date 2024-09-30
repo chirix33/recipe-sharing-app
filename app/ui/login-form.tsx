@@ -33,7 +33,6 @@ export default function LoginForm() {
                   type="email"
                   name="email"
                   placeholder="Enter your email address"
-                  required
                 />
                 <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
@@ -52,7 +51,6 @@ export default function LoginForm() {
                   type="password"
                   name="password"
                   placeholder="Enter password"
-                  required
                   minLength={6}
                 />
                 <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
@@ -61,13 +59,18 @@ export default function LoginForm() {
           </div>
           <Button 
           type="submit" 
+          name="type"
+          value="credentials"
           className="group text-white-50 bg-mallard-600 hover:bg-transparent hover:text-mallard-600 hover:border hover:border-mallard-600 mt-4 w-full"
           aria-disabled={isPending}
           >
             Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50 group-hover:text-mallard-600" />
           </Button>
+          <input type="hidden" name="authorizationType" value="login" />
           <Button 
-          type="button" 
+          type="submit"
+          name="type"
+          value="google"
           className="group text-mallard-50 bg-white-600 hover:bg-transparent hover:text-white-600 hover:border hover:border-white-600 mt-4 w-full"
           aria-disabled={isPending}>
             Log in with Google <GoogleSVG classNames="ml-auto h-5 w-5 text-gray-50 group-hover:text-mallard-400" />

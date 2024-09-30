@@ -1,3 +1,8 @@
+import { promises as fs } from 'fs';
+import path from 'path';
+import { randomUUID } from 'crypto';
+import { User } from './types';
+
 export function generateColor(withHash : boolean = false): string {
     const colors = [
         "FF5733", // Vibrant Orange
@@ -14,4 +19,16 @@ export function generateColor(withHash : boolean = false): string {
     ];
     const color = Math.floor(Math.random() * colors.length);
     return withHash ? `#${colors[color]}` : colors[color];
+}
+
+export async function createUser(name: string, email: string, password: string, accountType: 'email' | 'google', id: string = randomUUID()): Promise<void> {
+    // Create the user object and insert it into users.json
+    const username = email.split('@')[0];
+    const color = generateColor();
+    const picture = `https://api.dicebear.com/9.x/adventurer/svg?seed=${username}&flip=true&backgroundColor=${color}`;
+    
+    const user: User = { id, name, email, password, image: picture, accountType };
+    const allUsers = JSON.parse(await fs.readFile(path.join(process.cwd(), 'app', 'data', 'users.json'), 'utf-8'));
+    allUsers.users.push(user);
+    await fs.writeFile(path.join(process.cwd(), 'app', 'data', 'users.json'), JSON.stringify(allUsers, null, 2));
 }
