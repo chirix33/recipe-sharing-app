@@ -1,4 +1,18 @@
+# Recipe Sharing App
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## About the App
+
+The Recipe Sharing App is a platform where users can share and discover new recipes. Users can create an account, log in, and start sharing their favorite recipes with the community. The app also allows users to browse recipes shared by others, save their favorite recipes, and leave comments and ratings.
+
+## Features
+
+- User authentication and authorization
+- Create, edit, and delete recipes
+- Browse and search for recipes
+- Save favorite recipes
+- Leave comments and ratings on recipes
 
 ## Getting Started
 
@@ -12,25 +26,29 @@ yarn dev
 pnpm dev
 # or
 bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying app/page.tsx. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Technologies Used
+Next.js
+React
+Tailwind CSS
+TypeScript
+NextAuth.js for authentication
+JSON for the users storage. It is a front end project! Don't roast me! Might add PostgreSQL/Supabase in the future
+Contributing
+Contributions are welcome! Please open an issue or submit a pull request.
 
-## Learn More
+License
+This project is licensed under the MIT License.
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Explanation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **About the App**: Added a section to describe the purpose and functionality of the app.
+- **Features**: Listed the main features of the app.
+- **Technologies Used**: Included the technologies and libraries used in the project.
+- **Contributing**: Added a section to encourage contributions.
+- **License**: Specified the license for the project.
