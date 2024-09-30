@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth';
 import type { NextAuthConfig } from 'next-auth';
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
 import { z } from 'zod';
@@ -22,40 +21,6 @@ async function getUser(email: string): Promise<User | undefined> {
         console.error('Failed to fetch user:', error);
         throw new Error('Failed to fetch user.');
     }
-}
-
-async function refreshAccessToken(token: any) {
-  try {
-    const url = `https://oauth2.googleapis.com/token?client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&grant_type=refresh_token&refresh_token=${token.refreshToken}`;
-
-    const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      method: 'POST',
-    });
-
-    console.log('Response:', response.json());
-    const refreshedTokens = await response.json();
-
-    if (!response.ok) {
-      throw refreshedTokens;
-    }
-
-    return {
-      ...token,
-      accessToken: refreshedTokens.access_token,
-      accessTokenExpires: Date.now() + refreshedTokens.expires_at * 1000, // Expires in * 1000 to convert seconds to ms
-      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token if new one isn't returned
-    };
-  } catch (error) {
-    console.error('Error refreshing access token:', error);
-
-    return {
-      ...token,
-      error: 'RefreshAccessTokenError',
-    };
-  }
 }
 
 export const authConfig: NextAuthConfig = {
@@ -115,7 +80,7 @@ export const authConfig: NextAuthConfig = {
       }
       return true;
     },
-    async signIn({ user, account, profile}) {
+    async signIn({ user, account}) {
 
       if (account?.provider == 'google') {
         const userEmail = user.email?.toString() || '';

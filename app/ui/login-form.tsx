@@ -15,7 +15,7 @@ export default function LoginForm() {
           <h2 className={`mb-4 text-1xl`}>
             Please log in. <br />
             <Link href="/create" className="text-mallard-600 underline">
-              Don't have an account? Sign up
+              Don&apos;t have an account? Sign up
             </Link>
           </h2>
           <div className="w-full">

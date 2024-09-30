@@ -5,7 +5,7 @@
       "name": "Ashraf Chiri",
       "email": "chiriashraf@gmail.com",
       "password": "ashrafhacker",
-      "image": "https://example.com/profiles/johndoe.jpg",
+      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=chiriashraf&flip=true&backgroundColor=33FFF1",
       "accountType": "email"
     },
     {
@@ -38,6 +38,14 @@
       "email": "bastaszachary@gmail.com",
       "password": "",
       "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=bastaszachary&flip=true&backgroundColor=FF33A6",
+      "accountType": "google"
+    },
+    {
+      "id": "2674a52a-e84d-4af9-864d-8ec8e6d907df",
+      "name": "Ashraf Abdul-Muumin Yakuub Yemboni",
+      "email": "aabdulmuuminyakuubye@hawk.iit.edu",
+      "password": "",
+      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=aabdulmuuminyakuubye&flip=true&backgroundColor=33FFF1",
       "accountType": "google"
     }
   ]

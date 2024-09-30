@@ -6,10 +6,8 @@ import { AuthError } from 'next-auth';
 import type { User } from '@/app/lib/types';
 import fs from 'fs/promises';
 import path from 'path';
-import { randomUUID } from 'crypto';
 import { redirect } from 'next/navigation';
 import { createUser } from './functions';
-import { generateColor } from './functions';
 
 // Function to authenticate user using form data
 // Use the signIn function from next-auth to authenticate user
