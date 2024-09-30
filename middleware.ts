@@ -4,10 +4,15 @@ import { auth } from "@/auth";
 
 // export default NextAuth(authConfig).auth;
 export default async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname === '/dashboard') {
-    const session = await auth();
+  const visitingURL = request.nextUrl.pathname;
+  const session = await auth();
+  if (visitingURL === '/dashboard') {
     if (!session) {
-      return NextResponse.redirect('/login');
+      return NextResponse.redirect(new URL('/login', request.nextUrl));
+    }
+  } else if (visitingURL === '/login' || visitingURL === '/create') {
+    if (session) {
+      return NextResponse.redirect(new URL('/dashboard', request.nextUrl));
     }
   }
   return NextResponse.next();
