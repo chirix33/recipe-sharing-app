@@ -5,7 +5,6 @@ import Image from "next/image";
 export default async function Page() {
     const session = await auth();
     const userImage = session?.user?.image || '';
-    console.log("Session on page: ", session);
     return (
       <>
       {/* Picture of the user */}

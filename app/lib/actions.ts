@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from 'zod';
-import { signIn } from '@/auth';
+import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import type { User } from '@/app/lib/types';
 import fs from 'fs/promises';
@@ -90,4 +90,9 @@ export async function validate(prevState: FormState, formData: FormData) {
     }
 
     redirect('/dashboard');
+}
+
+// Function to sign out the user
+export async function signUserOut() {
+    await signOut();
 }

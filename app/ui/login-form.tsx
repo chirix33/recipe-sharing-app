@@ -6,10 +6,15 @@ import { GoogleSVG } from './svgs';
 import { useFormState } from 'react-dom';
 import { authenticate } from '@/app/lib/actions';
 import Link from 'next/link';
+import { FormSkeleton } from './Skeletons/formSkeletons';
 
 export default function LoginForm() {
   const [error, formAction, isPending] = useFormState(authenticate, undefined);
-    return (
+  if (isPending) {
+    <FormSkeleton />
+  }
+  
+  return (
     <form action={formAction} className="space-y-3">
         <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
           <h2 className={`mb-4 text-1xl`}>
@@ -87,5 +92,5 @@ export default function LoginForm() {
         </div>
         </div>
     </form>
-    );
+  );
 }
