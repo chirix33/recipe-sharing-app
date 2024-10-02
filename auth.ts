@@ -42,7 +42,7 @@ export const authConfig: NextAuthConfig = {
         if (!user) return null;
         const comparePassword = password === user.password;
         if (comparePassword) {
-          console.log("User: ", user); 
+          // console.log("User: ", user); 
           return {
             ...user,
             authorizationType: credentials.authorizationType
