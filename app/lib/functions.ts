@@ -2,6 +2,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import { User } from './types';
+import type { Meal } from './types';
 
 export function generateColor(withHash : boolean = false): string {
     const colors = [
@@ -31,4 +32,10 @@ export async function createUser(name: string, email: string, password: string, 
     const allUsers = JSON.parse(await fs.readFile(path.join(process.cwd(), 'app', 'data', 'users.json'), 'utf-8'));
     allUsers.users.push(user);
     await fs.writeFile(path.join(process.cwd(), 'app', 'data', 'users.json'), JSON.stringify(allUsers, null, 2));
+}
+
+export async function getUserMeals(userEmail: string): Promise<Meal[]> {
+    const meals = JSON.parse(await fs.readFile(path.join(process.cwd(), 'app', 'data', 'meals.json'), 'utf-8'));
+    const userMeals: Meal[] = meals.meals.filter((meal: Meal) => meal.user_email == userEmail);
+    return userMeals;
 }

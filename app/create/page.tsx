@@ -1,7 +1,7 @@
-import CreateForm from "@/app/ui/create-form";
-import Logo from "../ui/logo";
+import CreateForm from "@/app/ui/forms/create-form";
+import Logo from "../ui/global/logo";
 import { Suspense } from "react";
-import { FormSkeleton } from "../ui/Skeletons/formSkeletons";
+import { FormSkeleton } from "../ui/skeletons/formSkeletons";
 
 export default function Page() {
     return (

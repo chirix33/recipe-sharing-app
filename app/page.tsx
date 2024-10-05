@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { playwrite } from '@/app/ui/global/fonts';
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
       <div className="w-full bg-white ">
         <div className="container mx-auto px-6 py-16 text-center">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Welcome to RecipeShare
+            Welcome to <span className={playwrite.className}>RecipeShare</span>
           </h1>
           <p className="text-lg text-gray-600 mb-8">
             Discover and share amazing recipes with our community.

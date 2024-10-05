@@ -1,7 +1,7 @@
 {
     "meals": [
       {
-        "user_id": "3d5c8ec7-68ad-4d06-a4c0-08771511f3f5",
+        "user_email": "chiriashraf@gmail.com",
         "name": "Meal Name",
         "category": ["Breakfast","Lunch","Dinner"],
         "mealType": ["Main Course","Side Dish","Dessert","Appetizer","Salad","Soup","Snack","Drink"],

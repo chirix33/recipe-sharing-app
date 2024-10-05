@@ -1,12 +1,12 @@
 "use client";
 
 import { ArrowRightIcon, AtSymbolIcon, KeyIcon, ExclamationCircleIcon } from '@heroicons/react/20/solid';
-import { Button } from '@/app/ui/button';
-import { GoogleSVG } from './svgs';
+import { Button } from '@/app/ui/global/button';
+import { GoogleSVG } from '../global/svgs';
 import { useFormState } from 'react-dom';
 import { authenticate } from '@/app/lib/actions';
 import Link from 'next/link';
-import { FormSkeleton } from './Skeletons/formSkeletons';
+import { FormSkeleton } from '../skeletons/formSkeletons';
 
 export default function LoginForm() {
   const [error, formAction, isPending] = useFormState(authenticate, undefined);
