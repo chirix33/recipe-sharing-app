@@ -6,7 +6,7 @@ import { GoogleSVG } from '../global/svgs';
 import { useFormState } from 'react-dom';
 import { authenticate } from '@/app/lib/actions';
 import Link from 'next/link';
-import { FormSkeleton } from '../../ui/skeletons/formSkeletons';
+import { FormSkeleton } from '@/app/ui/skeletons/formSkeletons';
 
 export default function LoginForm() {
   const [error, formAction, isPending] = useFormState(authenticate, undefined);

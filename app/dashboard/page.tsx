@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { playwrite } from "../ui/global/fonts";
+import { playwrite } from "@/app/ui/global/fonts";
 import UserImage from "@/app/ui/dashboard/UserImage";
 import UserRecipes from "@/app/ui/dashboard/UserRecipes";
 
