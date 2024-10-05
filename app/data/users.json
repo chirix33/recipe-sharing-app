@@ -47,6 +47,14 @@
       "password": "",
       "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=aabdulmuuminyakuubye&flip=true&backgroundColor=33FFF1",
       "accountType": "google"
+    },
+    {
+      "id": "7e0d7348-bf38-4016-8edc-96e291fafaa1",
+      "name": "Jillian Zanetich",
+      "email": "jillianzanetich@gmail.com",
+      "password": "ashrafhacker",
+      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=jillianzanetich&flip=true&backgroundColor=33FF57",
+      "accountType": "email"
     }
   ]
 }

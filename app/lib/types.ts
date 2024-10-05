@@ -24,6 +24,7 @@ export type SubCategory = typeof SubCategories[number];
 export type MealType = typeof MealTypes[number];
 
 export interface Meal {
+  id: string;
   user_email: string;
   name: string;
   category: MealCategory[]; // Breakfast, Lunch, Dinner

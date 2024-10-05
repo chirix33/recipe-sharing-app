@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import { playwrite } from "@/app/ui/global/fonts";
 import UserImage from "@/app/ui/dashboard/UserImage";
 import UserRecipes from "@/app/ui/dashboard/UserRecipes";
+import { Suspense } from "react";
+import { UserRecipesSkeleton } from "../ui/skeletons/dashboardSkeletons";
 
 export default async function Page() {
     const session = await auth();
@@ -17,7 +19,9 @@ export default async function Page() {
         <h1 className="text-2xl text-center">Your Recipes, <span className={`${playwrite.className} block`}>{session?.user?.name}</span></h1>
         
         {/* Recipes list */}
-        <UserRecipes email={session?.user?.email || ''} />
+        <Suspense fallback={<UserRecipesSkeleton />} >
+          <UserRecipes email={session?.user?.email || ''} />
+        </Suspense>
       </>
     );
 }

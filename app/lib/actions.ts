@@ -89,7 +89,7 @@ export async function validate(prevState: FormState, formData: FormData) {
         return { errors: { email: ['Failed to validate form.'] } };
     }
 
-    redirect('/dashboard');
+    redirect('/dashboard?new=true&email=' + email);
 }
 
 // Function to sign out the user
