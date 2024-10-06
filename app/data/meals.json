@@ -3,7 +3,7 @@
       {
         "id": "1",
         "user_email": "chiriashraf@gmail.com",
-        "name": "Waakye",
+        "name": "Naan with Red Lentil Curry",
         "category": ["Breakfast","Lunch","Dinner"],
         "mealType": ["Main Course","Side Dish","Dessert","Appetizer","Salad","Soup","Snack","Drink"],
         "subCategory": ["Vegan","Vegetarian","Gluten-Free","Dairy-Free","Low-Carb","Low-Fat","Low-Sugar","High-Protein","Mediterranean","Kosher","Halal"],
@@ -47,7 +47,7 @@
       {
         "id": "3",
         "user_email": "chiriashraf@gmail.com",
-        "name": "Banku & Tilapia",
+        "name": "Chana Masala",
         "category": ["All"],
         "mealType": ["Main Course","Side Dish"],
         "subCategory": ["High-Protein","Mediterranean","Halal"],
