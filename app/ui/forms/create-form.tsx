@@ -1,7 +1,7 @@
 "use client";
 
 import { UserCircleIcon, ArrowRightIcon, AtSymbolIcon, KeyIcon, ExclamationCircleIcon } from '@heroicons/react/20/solid';
-import { Button } from '@/app/ui/global/button';
+import { Button } from '@/app/ui/global/buttons';
 import { GoogleSVG } from '../global/svgs';
 import { useFormState } from 'react-dom';
 import Link from 'next/link';

@@ -4,13 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { signUserOut } from "@/app/lib/actions";
-import { UserCircleIcon, PlusIcon, CakeIcon } from "@heroicons/react/20/solid";
+import { UserCircleIcon, PlusIcon, ClipboardDocumentListIcon } from "@heroicons/react/20/solid";
 
 export default function Navigation() {
     const links = [
         { href: "/dashboard", label: "Dashboard", icon: <UserCircleIcon className="inline w-6 h-6" /> },
         { href: "/dashboard/add", label: "Add Recipe", icon: <PlusIcon className="inline w-6 h-6" /> },
-        { href: "/home", label: "All Recipes", icon: <CakeIcon className="inline w-6 h-6" /> }
+        { href: "/home", label: "All Recipes", icon: <ClipboardDocumentListIcon className="inline w-6 h-6" /> }
     ];
 
     const pathname = usePathname();

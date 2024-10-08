@@ -8,6 +8,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { redirect } from 'next/navigation';
 import { createUser } from './functions';
+import type { Meal } from '@/app/lib/types';
 
 // Function to authenticate user using form data
 // Use the signIn function from next-auth to authenticate user
@@ -95,4 +96,14 @@ export async function validate(prevState: FormState, formData: FormData) {
 // Function to sign out the user
 export async function signUserOut() {
     await signOut();
+}
+
+export async function deleteRecipe(recipeId: string) {
+    const filePath = path.join(process.cwd(), 'app', 'data', 'meals.json');
+    const fileContents = await fs.readFile(filePath, 'utf-8');
+    const allMeals = JSON.parse(fileContents);
+    const meals = allMeals.meals as Meal[];
+    const updatedMeals = meals.filter((meal) => meal.id !== recipeId);
+    allMeals.meals = updatedMeals;
+    await fs.writeFile(filePath, JSON.stringify(allMeals, null, 2));
 }
