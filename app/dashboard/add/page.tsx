@@ -4,6 +4,7 @@ import { useState } from 'react';
 import MultiSelectDiv from '@/app/ui/forms/multiselect';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { categories, types, subCategories } from '@/app/lib/types';
+import { addRecipe } from '@/app/lib/actions';
 
 export default function Page() {
     
@@ -14,7 +15,7 @@ export default function Page() {
     return (
         <div className="w-full mx-auto lg:w-4/5">
             <h1 className="text-xl">Add Recipe</h1>
-            <form action="" className="mt-4 space-y-6 w-full">
+            <form action={addRecipe} className="mt-4 space-y-6 w-full">
                 <div className="relative mb-3">
                     <label htmlFor="name" className="text-gray-500">Recipe Title</label>
                     <input
@@ -58,6 +59,7 @@ export default function Page() {
                     name="instructions"
                     placeholder="Instructions"></textarea>
                 </div>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white-50 font-bold py-2 px-4 rounded">Add Recipe!</button>
             </form>
         </div>
     );

@@ -107,3 +107,7 @@ export async function deleteRecipe(recipeId: string) {
     allMeals.meals = updatedMeals;
     await fs.writeFile(filePath, JSON.stringify(allMeals, null, 2));
 }
+
+export async function addRecipe(formData: FormData) {
+    console.log(formData);
+}

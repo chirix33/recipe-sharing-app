@@ -19,6 +19,7 @@ export default function MultiSelectDiv({
     disableSearch: boolean}) {
         return(
             <div className={classNameDiv}>
+                {/* TODO: Create a hidden input to store the selected values */}
             {
                 value.length === 0 ? <label htmlFor="name" className="text-gray-500">{labelledBy}</label> : 
                 <div className="mb-2 w-full bg-gray-300 flex gap-2 rounded-md py-2 px-4">
