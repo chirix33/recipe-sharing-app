@@ -15,7 +15,7 @@ export default function Home() {
             Discover and share amazing recipes with our community.
           </p>
           <Link href="/login" className="inline-block bg-mallard-500 text-white-50 px-6 py-3 rounded-md text-lg font-medium hover:bg-white-50 hover:text-mallard-500 border hover:border-mallard-500">
-              Get Started
+              Sign In
           </Link>
           <br />
           <Link href="/home" className="inline-block mt-3 text-mallard-500 border border-white-200 bg-white-50 px-6 py-3 rounded-md text-lg font-medium hover:bg-mallard-100 hover:text-white-500">

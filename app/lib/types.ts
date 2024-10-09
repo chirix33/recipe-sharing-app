@@ -35,3 +35,35 @@ export interface Meal {
   nutritionalInfo: NutritionalInfo; // Nutritional information object
   image: string; // URL for the meal image
 }
+
+// Options for the  multi select componenet in the add recipe form
+export const categories = [
+  { label: "Breakfast", value: "breakfast" },
+  { label: "Lunch", value: "lunch" },
+  { label: "Dinner", value: "dinner" }
+];
+
+export const types = [
+  { label: "Main Course", value: "main" },
+  { label: "Side Dish", value: "side" },
+  { label: "Dessert", value: "dessert" },
+  { label: "Appetizer", value: "appetizer" },
+  { label: "Salad", value: "salad" },
+  { label: "Soup", value: "soup" },
+  { label: "Snack", value: "snack" },
+  { label: "Drink", value: "drink" }
+];
+
+export const subCategories = [
+  { label: "Vegan", value: "vegan" },
+  { label: "Vegetarian", value: "vegetarian" },
+  { label: "Gluten-Free", value: "gluten-free" },
+  { label: "Dairy-Free", value: "dairy-free" },
+  { label: "Low-Carb", value: "low-carb" },
+  { label: "Low-Fat", value: "low-fat" },
+  { label: "Low-Sugar", value: "low-sugar" },
+  { label: "High-Protein", value: "high-protein" },
+  { label: "Mediterranean", value: "mediterranean" },
+  { label: "Kosher", value: "kosher" },
+  { label: "Halal", value: "halal" }
+];
