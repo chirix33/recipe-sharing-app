@@ -53,11 +53,24 @@ export default function Page() {
                     disableSearch={false}
                 />
                 <div className="relative mb-3">
+                    <label htmlFor="ingredients" className="text-gray-500">Ingredients</label>
+                    <input
+                        className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-base outline-2 placeholder:text-gray-500 focus:outline-mallard-500"
+                        id="ingredient_1"
+                        type="text"
+                        name="ingredient_1"
+                        placeholder="Ingredient 1" />
+                </div>
+                <div className="relative mb-3">
                     <textarea
                     className="peer resize-y h-36 block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-base outline-2 placeholder:text-gray-500 focus:outline-mallard-500"
                     id="instructions"
                     name="instructions"
                     placeholder="Instructions"></textarea>
+                </div>
+                <div className="relative mb-3">
+                    <label htmlFor="">Nutritional Info</label>
+                    
                 </div>
                 <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white-50 font-bold py-2 px-4 rounded">Add Recipe!</button>
             </form>
