@@ -2,15 +2,18 @@
 
 import { useState } from 'react';
 import MultiSelectDiv from '@/app/ui/forms/multiselect';
+import IngredientsInput from '@/app/ui/forms/input-controls';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { categories, types, subCategories } from '@/app/lib/types';
 import { addRecipe } from '@/app/lib/actions';
 
 export default function Page() {
     
+    // States
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [selectedSubCategories, setSelectedSubCategories] = useState([]);
+    const [ingredients, setIngredients] = useState(['']);
 
     return (
         <div className="w-full mx-auto lg:w-4/5">
@@ -52,15 +55,7 @@ export default function Page() {
                     ClearSelectedIcon={<XMarkIcon />}
                     disableSearch={false}
                 />
-                <div className="relative mb-3">
-                    <label htmlFor="ingredients" className="text-gray-500">Ingredients</label>
-                    <input
-                        className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-base outline-2 placeholder:text-gray-500 focus:outline-mallard-500"
-                        id="ingredient_1"
-                        type="text"
-                        name="ingredient_1"
-                        placeholder="Ingredient 1" />
-                </div>
+                <IngredientsInput ingredients={ingredients} setIngredients={setIngredients} />
                 <div className="relative mb-3">
                     <textarea
                     className="peer resize-y h-36 block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-base outline-2 placeholder:text-gray-500 focus:outline-mallard-500"
