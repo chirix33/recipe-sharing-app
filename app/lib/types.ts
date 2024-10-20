@@ -7,14 +7,6 @@ export interface User  {
   image: string;
 };
 
-// export interface NutritionalInfo {
-//   calories: number;
-//   fat: number;
-//   sugar: number;
-//   protein: number;
-//   carbs: number;
-// }
-
 export const MealCategories = ["Breakfast", "Lunch", "Dinner"] as const;
 export const SubCategories = ["Vegan","Vegetarian","Gluten-Free","Dairy-Free","Low-Carb","Low-Fat","Low-Sugar","High-Protein","Mediterranean","Kosher","Halal"] as const;
 export const MealTypes = ["Main Course", "Side Dish", "Dessert", "Appetizer", "Salad", "Beverage", "Snack"] as const;
@@ -31,9 +23,8 @@ export interface Meal {
   mealType: MealType[]; // Main Course, Side Dish, etc.
   subCategory: SubCategory[]; // Vegan, Vegetarian, etc.
   ingredients: string[]; // List of ingredients as strings
-  instructions: string; // Recipe instructions as a single string
+  instructions: string[]; // Recipe instructions as strings
   image: string; // URL for the meal image
-  // nutritionalInfo: NutritionalInfo; // Nutritional information object
 }
 
 // Options for the  multi select componenet in the add recipe form

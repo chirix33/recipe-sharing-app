@@ -108,6 +108,29 @@ export async function deleteRecipe(recipeId: string) {
     await fs.writeFile(filePath, JSON.stringify(allMeals, null, 2));
 }
 
-export async function addRecipe(formData: FormData) {
-    console.log(formData);
+export type RecipeFormState = {
+    selectedCategories?: string[],
+    selectedTypes?: string[],
+    selectedSubCategories?: string[],
+    ingredients?: string[],
+    instructions?: string[],
+    imagePreview?: string | null
+} 
+
+export async function addRecipe(
+    categories: never[], 
+    types: never[], 
+    subCategories: string[], 
+    ingredients: string[], 
+    instructions: string[], 
+    imagePreview: string | null,
+    prevState: RecipeFormState,
+    formData: FormData,
+): Promise<RecipeFormState> {
+    console.log('Form Submitted');
+    console.log('Selected Categories:', categories);
+    console.log('Selected Picture:', imagePreview);
+    console.log('Selected Types:', types);
+    console.log('Selected Sub Categories:', subCategories);
+    return {};
 }

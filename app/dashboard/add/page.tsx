@@ -1,22 +1,15 @@
 "use client";
 
 import { useState, useRef } from 'react';
+import { useFormState } from 'react-dom';
 import Image from 'next/image';
 import MultiSelectDiv from '@/app/ui/forms/multiselect';
 import AutoInput from '@/app/ui/forms/auto-input';
 import { XMarkIcon, CloudArrowUpIcon } from '@heroicons/react/20/solid';
 import { categories, types, subCategories } from '@/app/lib/types';
-import { addRecipe } from '@/app/lib/actions';
+import { addRecipe, RecipeFormState } from '@/app/lib/actions';
 
 export default function Page() {
-    // const recipeInfo = {
-    //     selectedCategories: [],
-    //     selectedTypes: [],
-    //     selectedSubCategories: [],
-    //     ingredients: [''],
-    //     instructions: ['']
-    // };
-    // const [recipe, setRecipe] = useState(recipeInfo);
 
     // States
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -24,6 +17,7 @@ export default function Page() {
     const [selectedSubCategories, setSelectedSubCategories] = useState([]);
     const [ingredients, setIngredients] = useState(['']);
     const [instructions, setInstructions] = useState(['']);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     // Reference to file input element
     // to let it be clicked on whenever the user clicks on the upload box 
@@ -34,8 +28,7 @@ export default function Page() {
         }
     }
 
-    // State to manage the preview of image uploaded
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    // Preview of image uploaded
     const handlePreview = () => {
         if (fileRef.current) {
             const file = fileRef.current.files![0];
@@ -46,11 +39,15 @@ export default function Page() {
         }
     }
 
-
+    // Form Submission
+    const initialFormState: RecipeFormState = {};
+    const addRecipewithStates = addRecipe.bind(null, selectedCategories, selectedTypes, selectedSubCategories, ingredients, instructions, imagePreview);
+    const [formState, setFormState] = useFormState(addRecipewithStates, initialFormState);
+    console.log(formState);
     return (
         <div className="w-full mx-auto lg:w-4/5">
             <h1 className="text-xl">Add Recipe</h1>
-            <form action={addRecipe} className="mt-4 space-y-6 w-full">
+            <form action={setFormState} className="mt-4 space-y-6 w-full">
                 <div className="relative mb-3">
                     <label htmlFor="name" className="text-sm font-medium text-gray-500">Recipe Title</label>
                     <input
@@ -102,44 +99,42 @@ export default function Page() {
                     addButtonText="Add Instruction"
                 />
                 <div className="relative mb-3">
-                    
-                        
                     <div className="flex flex-col items-start">
-                    <label className="mb-2 text-sm font-medium text-gray-500">
-                        {imagePreview ? 'Click on preview to reupload a picture' : 'Upload a picture'}
-                    </label>
-                    <div 
-                    className="w-48 h-48 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 cursor-pointer"
-                    onClick={handleClick}
-                    >
-                        {
-                            imagePreview && 
-                            <Image
-                            src={imagePreview}
-                            height={100}
-                            width={100}
-                            alt="Preview"
-                            className="inset-0 w-full h-full object-cover rounded-lg"
-                        />
-                        }
-                        <CloudArrowUpIcon className="hover:z-50 h-10 w-10 text-gray-400" />
-                        <input 
-                        type="file"
-                        name="picture"
-                        ref={fileRef}
-                        accept="image/*"
-                        className="hidden"
-                        onChange={handlePreview}
-                        aria-describedby="picture-error"
-                        />
+                        <label className="mb-2 text-sm font-medium text-gray-500">
+                            {imagePreview ? 'Click on the preview to reupload a picture' : 'Upload a picture'}
+                        </label>
+                        <div 
+                        className="w-52 h-52 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 cursor-pointer"
+                        onClick={handleClick}
+                        >
+                            {
+                                imagePreview && 
+                                <Image
+                                src={imagePreview}
+                                height={150}
+                                width={150}
+                                alt="Preview"
+                                className="inset-0 w-full h-full object-cover rounded-lg"
+                                />
+                            }
+                            <CloudArrowUpIcon className="hover:z-50 h-10 w-10 text-gray-400" />
+                            <input 
+                            type="file"
+                            name="picture"
+                            ref={fileRef}
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handlePreview}
+                            aria-describedby="picture-error"
+                            />
+                        </div>
+                        <div id="picture-error" aria-live="polite" aria-atomic="true">
+                        {}
                     </div>
-                    <div id="picture-error" aria-live="polite" aria-atomic="true">
-                    {}
-                    </div>
-                    </div>
-
                 </div>
-                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white-50 font-bold py-2 px-4 rounded">Add Recipe!</button>
+                </div>
+                <br />
+                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white-50 font-bold py-2 px-4 rounded">Add Recipe</button>
             </form>
         </div>
     );
