@@ -21,7 +21,7 @@ export default function MultiSelectDiv({
             <div className={classNameDiv}>
                 {/* TODO: Create a hidden input to store the selected values */}
             {
-                value.length === 0 ? <label htmlFor="name" className="text-gray-500">{labelledBy}</label> : 
+                value.length === 0 ? <label htmlFor="name" className="text-sm font-medium text-gray-500">{labelledBy}</label> : 
                 <div className="mb-2 w-full bg-gray-300 flex gap-2 rounded-md py-2 px-4">
                 {value.map(({ label }) => <span className="inline-block h-6 flex justify-center items-center bg-white-50 rounded-md p-4 text-sm" key={label}>{label}</span>)}
                 </div>
