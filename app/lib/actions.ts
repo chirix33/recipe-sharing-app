@@ -128,6 +128,10 @@ export async function addRecipe(
     formData: FormData,
 ): Promise<RecipeFormState> {
     console.log('Form Submitted');
+    console.log('Form Data:', formData);
+    if (prevState) {
+        console.log('Previous State:', prevState);
+    }
     console.log('Selected Categories:', categories);
     console.log('Selected Picture:', imagePreview);
     console.log('Selected Types:', types);
