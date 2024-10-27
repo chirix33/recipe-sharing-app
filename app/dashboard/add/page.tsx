@@ -41,7 +41,7 @@ export default function Page() {
 
     // Form Submission
     const initialFormState: RecipeFormState = {};
-    const addRecipewithStates = addRecipe.bind(null, selectedCategories, selectedTypes, selectedSubCategories, ingredients, instructions, imagePreview);
+    const addRecipewithStates = addRecipe.bind(null, selectedCategories, selectedTypes, selectedSubCategories, ingredients, instructions);
     const [formState, setFormState] = useFormState(addRecipewithStates, initialFormState);
     console.log(formState);
     return (

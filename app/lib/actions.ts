@@ -1,14 +1,14 @@
 "use server";
 
 import { z } from 'zod';
-import { signIn, signOut } from '@/auth';
+import { auth, signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
-import type { User } from '@/app/lib/types';
+import type { Meal, MealCategory, SubCategory, MealType, User } from '@/app/lib/types';
 import fs from 'fs/promises';
 import path from 'path';
 import { redirect } from 'next/navigation';
 import { createUser } from './functions';
-import type { Meal } from '@/app/lib/types';
+import { randomUUID } from 'crypto';
 
 // Function to authenticate user using form data
 // Use the signIn function from next-auth to authenticate user
@@ -109,32 +109,102 @@ export async function deleteRecipe(recipeId: string) {
 }
 
 export type RecipeFormState = {
-    selectedCategories?: string[],
-    selectedTypes?: string[],
-    selectedSubCategories?: string[],
-    ingredients?: string[],
-    instructions?: string[],
-    imagePreview?: string | null
+    errors?: {
+        name?: string[],
+        categories?: string[],
+        types?: string[],
+        subCategories?: string[],
+        ingredients?: string[],
+        instructions?: string[],
+        imagePreview?: string[] | null,
+        other?: string[] | null
+    }
 } 
+
+
+// recipe schema
+const recipeSchema = z.object({
+    name: z.string().min(3, { message: 'Name must be at least 3 characters long.' }),
+    categories: z.array(z.object(
+        { 
+            label: z.string(), 
+            value: z.string() 
+        })).nonempty({ message: 'Select at least one category.' }),
+    types: z.array(z.object(
+        { 
+            label: z.string(), 
+            value: z.string() 
+        })).nonempty({ message: 'Select at least one type.' }),
+    subCategories: z.array(z.object(
+        { 
+            label: z.string(), 
+            value: z.string() 
+        })).nonempty({ message: 'Select at least one sub category.' }),
+    ingredients: z.array(z.string().min(1, { message: 'Please add a valid ingredient' })).nonempty({ message: 'Add at least one ingredient.' }),
+    instructions: z.array(z.string().min(1, { message: 'Please add a valid instruction' })).nonempty({ message: 'Add at least one instruction.' }),
+});
 
 export async function addRecipe(
     categories: never[], 
     types: never[], 
     subCategories: string[], 
     ingredients: string[], 
-    instructions: string[], 
-    imagePreview: string | null,
+    instructions: string[],
     prevState: RecipeFormState,
     formData: FormData,
 ): Promise<RecipeFormState> {
-    console.log('Form Submitted');
-    console.log('Form Data:', formData);
-    if (prevState) {
-        console.log('Previous State:', prevState);
+    const validatedFields = recipeSchema.safeParse({
+        name: formData.get('name'),
+        categories,
+        types,
+        subCategories,
+        ingredients,
+        instructions
+    });
+
+    if (!validatedFields.success) {
+        return { errors: validatedFields.error.flatten().fieldErrors };
     }
-    console.log('Selected Categories:', categories);
-    console.log('Selected Picture:', imagePreview);
-    console.log('Selected Types:', types);
-    console.log('Selected Sub Categories:', subCategories);
+
+    // Form validated, now validate the image
+    const file = formData.get('image') as File;
+    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    if (!['jpg', 'jpeg', 'png'].includes(fileExtension!)) {
+        return { errors: { imagePreview: ['Please upload a valid image file.'] } };
+    }
+
+    const MealCategories : MealCategory[] = validatedFields.data.categories.map(({ value }) => value as MealCategory);
+    const MealTypes : MealType[] = validatedFields.data.categories.map(({ value }) => value as MealType);
+    const SubCategories : SubCategory[] = validatedFields.data.categories.map(({ value }) => value as SubCategory);
+    const user = await auth();
+
+    try {
+        const filePath = path.join(process.cwd(), 'app', 'data', 'meals.json');
+        const fileContents = await fs.readFile(filePath, 'utf-8');
+        const allMeals = JSON.parse(fileContents);
+        const meals = allMeals.meals as Meal[];
+        const newMeal : Meal = {
+            id: randomUUID(),
+            name: validatedFields.data.name,
+            user_email: user?.user?.email as string,
+            category: MealCategories,
+            mealType: MealTypes,
+            subCategory: SubCategories,
+            ingredients: validatedFields.data.ingredients,
+            instructions: validatedFields.data.instructions,
+            image: '/data/images/' + file.name
+        };
+        meals.push(newMeal);
+        allMeals.meals = meals;
+        await fs.writeFile(filePath, JSON.stringify(allMeals, null, 2));
+        // await fs.writeFile(path.join(process.cwd(), 'public', 'images', file.name), await file.arrayBuffer());
+
+    } catch(error) {
+        console.error('Failed to validate form:', error);
+        return { errors: { other: ['Failed to add the recipe.'] } };
+    }
+
+    console.log(validatedFields.data);
+
     return {};
 }
