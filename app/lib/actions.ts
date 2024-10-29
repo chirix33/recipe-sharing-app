@@ -9,6 +9,8 @@ import path from 'path';
 import { redirect } from 'next/navigation';
 import { createUser } from './functions';
 import { randomUUID } from 'crypto';
+// import { generateObject } from 'ai';
+// import { openai } from '@ai-sdk/openai';
 
 // Function to authenticate user using form data
 // Use the signIn function from next-auth to authenticate user
@@ -121,7 +123,6 @@ export type RecipeFormState = {
     }
 } 
 
-
 // recipe schema
 const recipeSchema = z.object({
     name: z.string().min(3, { message: 'Name must be at least 3 characters long.' }),
@@ -153,6 +154,9 @@ export async function addRecipe(
     prevState: RecipeFormState,
     formData: FormData,
 ): Promise<RecipeFormState> {
+    ingredients = ingredients.filter((ingredient) => ingredient.trim() !== '');
+    instructions = instructions.filter((instruction) => instruction.trim() !== '');
+
     const validatedFields = recipeSchema.safeParse({
         name: formData.get('name'),
         categories,
@@ -163,22 +167,47 @@ export async function addRecipe(
     });
 
     if (!validatedFields.success) {
+        console.log('Form data is invalid.', validatedFields.error.flatten().fieldErrors);
         return { errors: validatedFields.error.flatten().fieldErrors };
     }
 
     // Form validated, now validate the image
-    const file = formData.get('image') as File;
+    const file = formData.get('picture') as File;
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
-    if (!['jpg', 'jpeg', 'png'].includes(fileExtension!)) {
+    if (!file || !['jpg', 'jpeg', 'png'].includes(fileExtension!)) {
         return { errors: { imagePreview: ['Please upload a valid image file.'] } };
     }
 
     const MealCategories : MealCategory[] = validatedFields.data.categories.map(({ value }) => value as MealCategory);
-    const MealTypes : MealType[] = validatedFields.data.categories.map(({ value }) => value as MealType);
-    const SubCategories : SubCategory[] = validatedFields.data.categories.map(({ value }) => value as SubCategory);
+    const MealTypes : MealType[] = validatedFields.data.types.map(({ value }) => value as MealType);
+    const SubCategories : SubCategory[] = validatedFields.data.subCategories.map(({ value }) => value as SubCategory);
     const user = await auth();
 
+    // const prepTimeSchema = z.object({
+    //     prepTime: z.number().min(1).max(180)
+    // });
+
+    // const prompt = `
+    //     Name: ${validatedFields.data.name}
+    //     Ingredients: ${validatedFields.data.ingredients.join(', ')}
+    //     Instructions: ${validatedFields.data.instructions.join(', ')}
+
+    //     Based on the recipe details above, please provide an estimated preparation time in minutes.
+    //     Consider factors like ingredient preparation, cooking time, and complexity of steps.
+    // `;
+
     try {
+        // Move the image to /data/images
+        await fs.writeFile(path.join(process.cwd(), 'app', 'data', 'images', file.name),  Buffer.from(await file.arrayBuffer()));
+        
+        // const { object: prepTimeData } = await generateObject({
+        //     model: openai('gpt-4o-mini'),
+        //     schema: prepTimeSchema,
+        //     prompt: prompt,
+        //     maxRetries: 3
+        // });
+
+        // Add the recipe to meals.json
         const filePath = path.join(process.cwd(), 'app', 'data', 'meals.json');
         const fileContents = await fs.readFile(filePath, 'utf-8');
         const allMeals = JSON.parse(fileContents);
@@ -197,14 +226,13 @@ export async function addRecipe(
         meals.push(newMeal);
         allMeals.meals = meals;
         await fs.writeFile(filePath, JSON.stringify(allMeals, null, 2));
-        // await fs.writeFile(path.join(process.cwd(), 'public', 'images', file.name), await file.arrayBuffer());
 
     } catch(error) {
-        console.error('Failed to validate form:', error);
+        console.error('Failed to add the recipe:', error);
         return { errors: { other: ['Failed to add the recipe.'] } };
     }
 
-    console.log(validatedFields.data);
+    console.log("Recipe added successfully.");
 
     return {};
 }

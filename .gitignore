@@ -46,3 +46,5 @@ next-env.d.ts
 /dataSources/
 /dataSources.local.xml
 .idea/*
+.env
+/.env

@@ -42,7 +42,8 @@
         "Hello!",
         "Hi!"
       ],
-      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=chiriashraf&flip=true&backgroundColor=33FFF1"
+      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=chiriashraf&flip=true&backgroundColor=33FFF1",
+      "prepTime": 60
     },
     {
       "id": "2",
@@ -73,7 +74,8 @@
         "protein": 0,
         "carbs": 0
       },
-      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=chiriashraf&flip=true&backgroundColor=33FFF1"
+      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=chiriashraf&flip=true&backgroundColor=33FFF1",
+      "prepTime": 40
     },
     {
       "id": "3",
@@ -104,7 +106,38 @@
         "protein": 0,
         "carbs": 0
       },
-      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=chiriashraf&flip=true&backgroundColor=33FFF1"
+      "image": "https://api.dicebear.com/9.x/adventurer/svg?seed=chiriashraf&flip=true&backgroundColor=33FFF1",
+      "prepTime": 75
+    },
+    {
+      "id": "c7203c6a-984e-4045-9032-06d74ef2998f",
+      "name": "Jollof Rice",
+      "user_email": "chiriashraf@gmail.com",
+      "category": [
+        "lunch",
+        "dinner"
+      ],
+      "mealType": [
+        "main"
+      ],
+      "subCategory": [
+        "high-protein",
+        "halal"
+      ],
+      "ingredients": [
+        "Rice",
+        "Egg",
+        "Oil",
+        "Tomato Paste",
+        "Chicken"
+      ],
+      "instructions": [
+        "Boil the Egg",
+        "Steam & Cook the rice",
+        "Dice & Fry the Chicken",
+        "Prepare the Stew"
+      ],
+      "image": "/data/images/jollofrice.jpg"
     }
   ]
 }
