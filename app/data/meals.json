@@ -110,7 +110,7 @@
       "prepTime": 75
     },
     {
-      "id": "c7203c6a-984e-4045-9032-06d74ef2998f",
+      "id": "0db2a3ef-e6be-4883-af81-17ae7faa5fbe",
       "name": "Jollof Rice",
       "user_email": "chiriashraf@gmail.com",
       "category": [
@@ -126,18 +126,18 @@
       ],
       "ingredients": [
         "Rice",
-        "Egg",
         "Oil",
         "Tomato Paste",
         "Chicken"
       ],
       "instructions": [
         "Boil the Egg",
-        "Steam & Cook the rice",
-        "Dice & Fry the Chicken",
-        "Prepare the Stew"
+        "Fry the Chicken",
+        "Cook the Rice",
+        "Make the Stew",
+        "Mix Stew and Rice"
       ],
-      "image": "/data/images/jollofrice.jpg"
+      "image": "/data/images/Jollof-Rice-With-Chicken.jpg"
     }
   ]
 }

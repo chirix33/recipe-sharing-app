@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import Image from 'next/image';
 import MultiSelectDiv from '@/app/ui/forms/multiselect';
@@ -39,13 +39,39 @@ export default function Page() {
         }
     }
 
+    // clear form function
+    const clearForm = () => {
+        setSelectedCategories([]);
+        setSelectedTypes([]);
+        setSelectedSubCategories([]);
+        setIngredients(['']);
+        setInstructions(['']);
+        setImagePreview(null);
+    };
+
     // Form Submission
     const initialFormState: RecipeFormState = {};
     const addRecipewithStates = addRecipe.bind(null, selectedCategories, selectedTypes, selectedSubCategories, ingredients, instructions);
     const [formState, setFormState] = useFormState(addRecipewithStates, initialFormState);
-    console.log(formState);
+
+    // Clear form when formState.success is true
+    useEffect(() => {
+        if (formState.success) {
+            // send the user to the top of the page
+            window.scrollTo(0, 0);
+            clearForm();
+        }
+    }, [formState.success]);
+
     return (
         <div className="w-full mx-auto lg:w-4/5">
+            {
+                formState.success &&
+                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong className="font-bold">Recipe added successfully! </strong>
+                    <span className="block sm:inline">You can now add another recipe. <a href="/dashboard" className="text-white-600 underline">View your recipes here</a></span>
+                </div>
+            }
             <h1 className="text-xl">Add Recipe</h1>
             <form action={setFormState} className="mt-4 space-y-6 w-full">
                 <div className="relative mb-3">
@@ -56,6 +82,12 @@ export default function Page() {
                     type="text"
                     name="name"
                     placeholder="Type title here" />
+                    {
+                        formState.errors?.name && formState.errors.name[0] ? 
+                        <span className="text-red-500">{
+                            formState.errors.name[0]
+                        }</span> : ''
+                    }
                 </div>
                 <MultiSelectDiv
                     classNameDiv="relative mb-3"
@@ -66,6 +98,12 @@ export default function Page() {
                     ClearSelectedIcon={<XMarkIcon />}
                     disableSearch={true}
                 />
+                {
+                    formState.errors?.categories && formState.errors.categories[0] ? 
+                    <span className="text-red-500">{
+                        formState.errors.categories[0]
+                    }</span> : ''
+                }
                 <MultiSelectDiv
                     classNameDiv="relative mb-3"
                     options={types}
@@ -75,6 +113,12 @@ export default function Page() {
                     ClearSelectedIcon={<XMarkIcon />}
                     disableSearch={false}
                 />
+                {
+                    formState.errors?.types && formState.errors.types[0] ? 
+                    <span className="text-red-500">{
+                        formState.errors.types[0]
+                    }</span> : ''
+                }
                 <MultiSelectDiv
                     classNameDiv="relative mb-3"
                     options={subCategories}
@@ -84,6 +128,12 @@ export default function Page() {
                     ClearSelectedIcon={<XMarkIcon />}
                     disableSearch={false}
                 />
+                {
+                    formState.errors?.subCategories && formState.errors.subCategories[0] ? 
+                    <span className="text-red-500">{
+                        formState.errors.subCategories[0]
+                    }</span> : ''
+                }
                 <AutoInput 
                     state={ingredients} 
                     setState={setIngredients} 
@@ -91,6 +141,12 @@ export default function Page() {
                     type="ingredients"
                     addButtonText="Add Ingredient"
                 />
+                {
+                    formState.errors?.ingredients && formState.errors.ingredients[0] ? 
+                    <span className="text-red-500">{
+                        formState.errors.ingredients[0]
+                    }</span> : ''
+                }
                 <AutoInput 
                     state={instructions} 
                     setState={setInstructions} 
@@ -98,6 +154,12 @@ export default function Page() {
                     type="instructions"
                     addButtonText="Add Instruction"
                 />
+                {
+                    formState.errors?.instructions && formState.errors.instructions[0] ? 
+                    <span className="text-red-500">{
+                        formState.errors.instructions[0]
+                    }</span> : ''
+                }
                 <div className="relative mb-3">
                     <div className="flex flex-col items-start">
                         <label className="mb-2 text-sm font-medium text-gray-500">
@@ -131,9 +193,21 @@ export default function Page() {
                         <div id="picture-error" aria-live="polite" aria-atomic="true">
                         {}
                     </div>
+                    {
+                        formState.errors?.imagePreview && formState.errors.imagePreview[0] ? 
+                        <span className="text-red-500">{
+                            formState.errors.imagePreview[0]
+                        }</span> : ''
+                    }
                 </div>
                 </div>
                 <br />
+                {
+                    formState.errors?.other && formState.errors.other[0] ? 
+                    <span className="text-red-500">{
+                        formState.errors.other[0]
+                    }</span> : ''
+                }
                 <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white-50 font-bold py-2 px-4 rounded">Add Recipe</button>
             </form>
         </div>

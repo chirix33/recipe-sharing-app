@@ -120,7 +120,8 @@ export type RecipeFormState = {
         instructions?: string[],
         imagePreview?: string[] | null,
         other?: string[] | null
-    }
+    },
+    success?: boolean
 } 
 
 // recipe schema
@@ -234,5 +235,5 @@ export async function addRecipe(
 
     console.log("Recipe added successfully.");
 
-    return {};
+    return { success: true };
 }
