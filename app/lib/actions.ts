@@ -105,9 +105,17 @@ export async function deleteRecipe(recipeId: string) {
     const fileContents = await fs.readFile(filePath, 'utf-8');
     const allMeals = JSON.parse(fileContents);
     const meals = allMeals.meals as Meal[];
-    const updatedMeals = meals.filter((meal) => meal.id !== recipeId);
-    allMeals.meals = updatedMeals;
-    await fs.writeFile(filePath, JSON.stringify(allMeals, null, 2));
+    // Get picture of the meal
+    const targetMeal = meals.find((meal) => meal.id === recipeId);
+    if (targetMeal) {
+        const imagePath = path.join(process.cwd(), 'app', 'data', 'images', targetMeal.image.split('/').pop()!);
+        await fs.unlink(imagePath);
+        const updatedMeals = meals.filter((meal) => meal.id !== recipeId);
+        allMeals.meals = updatedMeals;
+        await fs.writeFile(filePath, JSON.stringify(allMeals, null, 2));
+    } else {
+        console.error('Failed to delete recipe. Recipe not found');
+    }
 }
 
 export type RecipeFormState = {

@@ -110,34 +110,61 @@
       "prepTime": 75
     },
     {
-      "id": "0db2a3ef-e6be-4883-af81-17ae7faa5fbe",
-      "name": "Jollof Rice",
+      "id": "2dbbc058-1637-4453-9a40-cec033f53b6c",
+      "name": "Taco",
       "user_email": "chiriashraf@gmail.com",
       "category": [
         "lunch",
         "dinner"
       ],
       "mealType": [
+        "side",
         "main"
       ],
       "subCategory": [
-        "high-protein",
-        "halal"
+        "high-protein"
       ],
       "ingredients": [
-        "Rice",
-        "Oil",
-        "Tomato Paste",
-        "Chicken"
+        "Taco",
+        "Beat",
+        "Salad"
       ],
       "instructions": [
-        "Boil the Egg",
-        "Fry the Chicken",
-        "Cook the Rice",
-        "Make the Stew",
-        "Mix Stew and Rice"
+        "Do this",
+        "Do that",
+        "Then Do this",
+        "Then finally do that"
       ],
-      "image": "/data/images/Jollof-Rice-With-Chicken.jpg"
+      "image": "/data/images/taco.jpg"
+    },
+    {
+      "id": "2953e2ca-58d0-40d8-8d8c-f9c723799527",
+      "name": "Pancake and Blueberries",
+      "user_email": "chiriashraf@gmail.com",
+      "category": [
+        "breakfast"
+      ],
+      "mealType": [
+        "dessert",
+        "appetizer",
+        "main",
+        "side"
+      ],
+      "subCategory": [
+        "low-sugar",
+        "dairy-free"
+      ],
+      "ingredients": [
+        "Flour",
+        "Blueberries",
+        "Honey"
+      ],
+      "instructions": [
+        "Do this ",
+        "Do that",
+        "Then do this"
+      ],
+      "image": "/data/images/pancake and blue berry.jpg"
     }
   ]
 }
