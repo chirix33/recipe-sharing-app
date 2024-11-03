@@ -73,7 +73,7 @@ export default function Page() {
                 </div>
             }
             <h1 className="text-xl">Add Recipe</h1>
-            <form action={setFormState} className="mt-4 space-y-6 w-full">
+            <form action={setFormState} method="post" encType='multipart/form-data' className="mt-4 space-y-6 w-full">
                 <div className="relative mb-3">
                     <label htmlFor="name" className="text-sm font-medium text-gray-500">Recipe Title</label>
                     <input

@@ -9,6 +9,7 @@ import path from 'path';
 import { redirect } from 'next/navigation';
 import { createUser } from './functions';
 import { randomUUID } from 'crypto';
+import { put, del } from '@vercel/blob';
 // import { generateObject } from 'ai';
 // import { openai } from '@ai-sdk/openai';
 
@@ -108,8 +109,9 @@ export async function deleteRecipe(recipeId: string) {
     // Get picture of the meal
     const targetMeal = meals.find((meal) => meal.id === recipeId);
     if (targetMeal) {
-        const imagePath = path.join(process.cwd(), 'app', 'data', 'images', targetMeal.image.split('/').pop()!);
-        await fs.unlink(imagePath);
+        const imagePath = targetMeal.image;
+        // Delete the image from Vercel Blob
+        await del(imagePath);
         const updatedMeals = meals.filter((meal) => meal.id !== recipeId);
         allMeals.meals = updatedMeals;
         await fs.writeFile(filePath, JSON.stringify(allMeals, null, 2));
@@ -192,29 +194,10 @@ export async function addRecipe(
     const SubCategories : SubCategory[] = validatedFields.data.subCategories.map(({ value }) => value as SubCategory);
     const user = await auth();
 
-    // const prepTimeSchema = z.object({
-    //     prepTime: z.number().min(1).max(180)
-    // });
-
-    // const prompt = `
-    //     Name: ${validatedFields.data.name}
-    //     Ingredients: ${validatedFields.data.ingredients.join(', ')}
-    //     Instructions: ${validatedFields.data.instructions.join(', ')}
-
-    //     Based on the recipe details above, please provide an estimated preparation time in minutes.
-    //     Consider factors like ingredient preparation, cooking time, and complexity of steps.
-    // `;
 
     try {
-        // Move the image to /data/images
-        await fs.writeFile(path.join(process.cwd(), 'app', 'data', 'images', file.name),  Buffer.from(await file.arrayBuffer()));
-        
-        // const { object: prepTimeData } = await generateObject({
-        //     model: openai('gpt-4o-mini'),
-        //     schema: prepTimeSchema,
-        //     prompt: prompt,
-        //     maxRetries: 3
-        // });
+        // Move the image to Vercel Blob
+        const blob = await put(`images/${file.name}`, file, { access: "public"});
 
         // Add the recipe to meals.json
         const filePath = path.join(process.cwd(), 'app', 'data', 'meals.json');
@@ -230,7 +213,7 @@ export async function addRecipe(
             subCategory: SubCategories,
             ingredients: validatedFields.data.ingredients,
             instructions: validatedFields.data.instructions,
-            image: '/data/images/' + file.name
+            image: blob.url
         };
         meals.push(newMeal);
         allMeals.meals = meals;

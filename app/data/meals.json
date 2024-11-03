@@ -110,61 +110,27 @@
       "prepTime": 75
     },
     {
-      "id": "2dbbc058-1637-4453-9a40-cec033f53b6c",
-      "name": "Taco",
+      "id": "3f086bf9-8e26-4a8f-a302-2a004ead348a",
+      "name": "Testing Blob 1",
       "user_email": "chiriashraf@gmail.com",
       "category": [
-        "lunch",
-        "dinner"
+        "lunch"
       ],
       "mealType": [
-        "side",
         "main"
       ],
       "subCategory": [
-        "high-protein"
-      ],
-      "ingredients": [
-        "Taco",
-        "Beat",
-        "Salad"
-      ],
-      "instructions": [
-        "Do this",
-        "Do that",
-        "Then Do this",
-        "Then finally do that"
-      ],
-      "image": "/data/images/taco.jpg"
-    },
-    {
-      "id": "2953e2ca-58d0-40d8-8d8c-f9c723799527",
-      "name": "Pancake and Blueberries",
-      "user_email": "chiriashraf@gmail.com",
-      "category": [
-        "breakfast"
-      ],
-      "mealType": [
-        "dessert",
-        "appetizer",
-        "main",
-        "side"
-      ],
-      "subCategory": [
-        "low-sugar",
         "dairy-free"
       ],
       "ingredients": [
-        "Flour",
-        "Blueberries",
-        "Honey"
+        "Ingredient 1",
+        "Ingredient 2"
       ],
       "instructions": [
-        "Do this ",
-        "Do that",
-        "Then do this"
+        "Instruction 1",
+        "Instruction 2"
       ],
-      "image": "/data/images/pancake and blue berry.jpg"
+      "image": "https://fw936kyzneis9uos.public.blob.vercel-storage.com/images/680776-0XqekVkhNBwpVcmoN9KGULH0EHnHen.png"
     }
   ]
 }
