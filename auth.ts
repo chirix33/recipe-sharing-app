@@ -4,24 +4,21 @@ import { NextResponse } from 'next/server';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
 import { z } from 'zod';
-import type { User } from '@/app/lib/types';
-import fs from 'fs/promises';
-import path from 'path';
-import { createUser } from './app/lib/functions';
+import { getUser, createUser } from './app/lib/functions';
 
-async function getUser(email: string): Promise<User | undefined> {
-    try {
-      if (email === '') throw new Error('Failed to fetch user.');
-      const filePath = path.join(process.cwd(), 'app', 'data', 'users.json');
-      const fileContents = await fs.readFile(filePath, 'utf-8');
-      const allUsers = JSON.parse(fileContents);
-      const users = allUsers.users as User[];
-      return users.find((user) => user.email === email);
-    } catch (error) {
-        console.error('Failed to fetch user:', error);
-        throw new Error('Failed to fetch user.');
-    }
-}
+// async function getUser(email: string): Promise<User | undefined> {
+//     try {
+//       if (email === '') throw new Error('Failed to fetch user.');
+//       const filePath = path.join(process.cwd(), 'app', 'data', 'users.json');
+//       const fileContents = await fs.readFile(filePath, 'utf-8');
+//       const allUsers = JSON.parse(fileContents);
+//       const users = allUsers.users as User[];
+//       return users.find((user) => user.email === email);
+//     } catch (error) {
+//         console.error('Failed to fetch user:', error);
+//         throw new Error('Failed to fetch user.');
+//     }
+// }
 
 export const authConfig: NextAuthConfig = {
   pages: {

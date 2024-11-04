@@ -1,8 +1,7 @@
-import { promises as fs } from 'fs';
-import path from 'path';
 import { randomUUID } from 'crypto';
-import { User } from './types';
+import type { User } from './types';
 import type { Meal } from './types';
+import { sql } from '@vercel/postgres';
 
 export function generateColor(withHash : boolean = false): string {
     const colors = [
@@ -24,18 +23,30 @@ export function generateColor(withHash : boolean = false): string {
 
 export async function createUser(name: string, email: string, password: string, accountType: 'email' | 'google', id: string = randomUUID()): Promise<void> {
     // Create the user object and insert it into users.json
-    const username = email.split('@')[0];
     const color = generateColor();
-    const picture = `https://api.dicebear.com/9.x/adventurer/svg?seed=${username}&flip=true&backgroundColor=${color}`;
-    
-    const user: User = { id, name, email, password, image: picture, accountType };
-    const allUsers = JSON.parse(await fs.readFile(path.join(process.cwd(), 'app', 'data', 'users.json'), 'utf-8'));
-    allUsers.users.push(user);
-    await fs.writeFile(path.join(process.cwd(), 'app', 'data', 'users.json'), JSON.stringify(allUsers, null, 2));
+    const picture = `https://api.dicebear.com/9.x/adventurer/svg?seed=${name}&flip=true&backgroundColor=${color}`;
+   try {
+        await sql`INSERT INTO users (id, name, email, password, image, accounttype) VALUES (${id}, ${name}, ${email}, ${password}, ${picture}, ${accountType})`;
+   } catch (error) {
+        console.error('Failed to create user:', error);
+   }
 }
 
-export async function getUserMeals(userEmail: string): Promise<Meal[]> {
-    const meals = JSON.parse(await fs.readFile(path.join(process.cwd(), 'app', 'data', 'meals.json'), 'utf-8'));
-    const userMeals: Meal[] = meals.meals.filter((meal: Meal) => meal.user_email == userEmail);
-    return userMeals;
+export async function getUserMeals(userEmail: string): Promise<Meal[] | []> {
+    try {
+        const meals = await sql`SELECT * FROM meals WHERE user_email = ${userEmail}`;
+        return meals.rows as Meal[];
+    } catch (error) {
+        console.error('Failed to get user meals:', error);
+        return [];
+    }
 }
+
+export async function getUser(email: string): Promise<User | false> {
+    if (email === '') return false;
+    const user = await sql`SELECT * FROM users WHERE email = ${email}`;
+    if (user) {
+        return user.rows[0] as User;
+    }
+    return false;
+} 

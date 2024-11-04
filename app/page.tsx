@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { playwrite } from '@/app/ui/global/fonts';
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
       {/* Hero Section */}
