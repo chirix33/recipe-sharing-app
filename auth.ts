@@ -66,6 +66,7 @@ export const authConfig: NextAuthConfig = {
   ],
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
+      console.log("Authorized callback");
       const isLoggedIn = !!auth?.user;
       if (isLoggedIn) {
         // Redirect authenticated users to dashboard

@@ -3,11 +3,11 @@
 import { z } from 'zod';
 import { auth, signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
-import type { Meal, MealCategory, SubCategory, MealType, User } from '@/app/lib/types';
+import type { Meal, MealCategory, SubCategory, MealType } from '@/app/lib/types';
 import fs from 'fs/promises';
 import path from 'path';
 import { redirect } from 'next/navigation';
-import { createUser } from './functions';
+import { getUser, createUser } from './functions';
 import { randomUUID } from 'crypto';
 import { put, del } from '@vercel/blob';
 // import { generateObject } from 'ai';
@@ -30,15 +30,6 @@ export async function authenticate(prevState: string | undefined, formData: Form
         }
         throw error;
     }
-}
-
-// Function to check if email is already in use
-async function checkEmail(email: string) {
-    const filePath = path.join(process.cwd(), 'app', 'data', 'users.json');
-    const fileContents = await fs.readFile(filePath, 'utf-8');
-    const allUsers = JSON.parse(fileContents);
-    const users = allUsers.users as User[];
-    return users.find((user) => user.email === email);
 }
 
 // State to manage the create account form
@@ -80,7 +71,7 @@ export async function validate(prevState: FormState, formData: FormData) {
 
     try {
         // Check if email is already in use
-        const res = await checkEmail(email); 
+        const res = await getUser(email); 
 
         if (res) {
             return { errors: { email: ['Email is already in use.'] } };
@@ -93,7 +84,7 @@ export async function validate(prevState: FormState, formData: FormData) {
         return { errors: { email: ['Failed to validate form.'] } };
     }
 
-    redirect('/dashboard?new=true&email=' + email);
+    redirect('/login?new=true&email=' + email);
 }
 
 // Function to sign out the user
