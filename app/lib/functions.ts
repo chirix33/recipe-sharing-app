@@ -1,7 +1,6 @@
 import { randomUUID } from 'crypto';
 import type { User } from './types';
-import type { Meal } from './types';
-import { sql } from '@vercel/postgres';
+import { QueryResultRow, sql } from '@vercel/postgres';
 
 export function generateColor(withHash : boolean = false): string {
     const colors = [
@@ -32,10 +31,10 @@ export async function createUser(name: string, email: string, password: string, 
    }
 }
 
-export async function getUserMeals(userEmail: string): Promise<Meal[] | []> {
+export async function getUserMeals(userEmail: string): Promise<Array<QueryResultRow>> {
     try {
         const meals = await sql`SELECT * FROM meals WHERE user_email = ${userEmail}`;
-        return meals.rows as Meal[];
+        return meals.rows;
     } catch (error) {
         console.error('Failed to get user meals:', error);
         return [];
@@ -49,4 +48,14 @@ export async function getUser(email: string): Promise<User | false> {
         return user.rows[0] as User;
     }
     return false;
-} 
+}
+
+export async function getRecipeImageURL(recipeId: string): Promise<string | false> {
+    try {
+        const image = await sql`SELECT image FROM meals WHERE id = ${recipeId}`;
+        return image.rows[0].image;
+    } catch (error) {
+        console.error('Failed to get recipe image URL:', error);
+        return false;
+    }
+}

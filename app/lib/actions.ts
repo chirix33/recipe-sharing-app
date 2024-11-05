@@ -4,14 +4,11 @@ import { z } from 'zod';
 import { auth, signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import type { Meal, MealCategory, SubCategory, MealType } from '@/app/lib/types';
-import fs from 'fs/promises';
-import path from 'path';
 import { redirect } from 'next/navigation';
-import { getUser, createUser } from './functions';
+import { getUser, createUser, getRecipeImageURL } from './functions';
 import { randomUUID } from 'crypto';
 import { put, del } from '@vercel/blob';
-// import { generateObject } from 'ai';
-// import { openai } from '@ai-sdk/openai';
+import { sql } from '@vercel/postgres';
 
 // Function to authenticate user using form data
 // Use the signIn function from next-auth to authenticate user
@@ -93,21 +90,20 @@ export async function signUserOut() {
 }
 
 export async function deleteRecipe(recipeId: string) {
-    const filePath = path.join(process.cwd(), 'app', 'data', 'meals.json');
-    const fileContents = await fs.readFile(filePath, 'utf-8');
-    const allMeals = JSON.parse(fileContents);
-    const meals = allMeals.meals as Meal[];
-    // Get picture of the meal
-    const targetMeal = meals.find((meal) => meal.id === recipeId);
-    if (targetMeal) {
-        const imagePath = targetMeal.image;
-        // Delete the image from Vercel Blob
-        await del(imagePath);
-        const updatedMeals = meals.filter((meal) => meal.id !== recipeId);
-        allMeals.meals = updatedMeals;
-        await fs.writeFile(filePath, JSON.stringify(allMeals, null, 2));
-    } else {
-        console.error('Failed to delete recipe. Recipe not found');
+    try {
+        // Get the image URL of the recipe and delete the image from Vercel Blob
+        const imageUrl = await getRecipeImageURL(recipeId);
+        if (!imageUrl) {
+            console.error('Image of the recipe not found.');
+            return;
+        }
+        await del(imageUrl);
+
+        // Delete the recipe from the database
+        const query = `DELETE FROM meals WHERE id = '${recipeId}'`;
+        await sql`${query}`;
+    } catch (error) {
+        console.error('Failed to delete the recipe:', error);
     }
 }
 
@@ -190,11 +186,7 @@ export async function addRecipe(
         // Move the image to Vercel Blob
         const blob = await put(`images/${file.name}`, file, { access: "public"});
 
-        // Add the recipe to meals.json
-        const filePath = path.join(process.cwd(), 'app', 'data', 'meals.json');
-        const fileContents = await fs.readFile(filePath, 'utf-8');
-        const allMeals = JSON.parse(fileContents);
-        const meals = allMeals.meals as Meal[];
+        // Add the recipe to the database
         const newMeal : Meal = {
             id: randomUUID(),
             name: validatedFields.data.name,
@@ -206,10 +198,9 @@ export async function addRecipe(
             instructions: validatedFields.data.instructions,
             image: blob.url
         };
-        meals.push(newMeal);
-        allMeals.meals = meals;
-        await fs.writeFile(filePath, JSON.stringify(allMeals, null, 2));
 
+        await sql`INSERT INTO meals (id, name, user_email, category, mealtype, subcategory, ingredients, instructions, image) 
+                        VALUES (${newMeal.id}, ${newMeal.name}, ${newMeal.user_email}, ${JSON.stringify(newMeal.category)}, ${JSON.stringify(newMeal.mealType)}, ${JSON.stringify(newMeal.subCategory)}, ${JSON.stringify(newMeal.ingredients)}, ${JSON.stringify(newMeal.instructions)}, ${newMeal.image})`;
     } catch(error) {
         console.error('Failed to add the recipe:', error);
         return { errors: { other: ['Failed to add the recipe.'] } };

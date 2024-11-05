@@ -73,7 +73,7 @@ export default function Page() {
                 </div>
             }
             <h1 className="text-xl">Add Recipe</h1>
-            <form action={setFormState} method="post" encType='multipart/form-data' className="mt-4 space-y-6 w-full">
+            <form action={setFormState} method="post" className="mt-4 space-y-6 w-full">
                 <div className="relative mb-3">
                     <label htmlFor="name" className="text-sm font-medium text-gray-500">Recipe Title</label>
                     <input
@@ -197,7 +197,7 @@ export default function Page() {
                         formState.errors?.imagePreview && formState.errors.imagePreview[0] ? 
                         <span className="text-red-500">{
                             formState.errors.imagePreview[0]
-                        }</span> : ''
+                        }<br /></span> : ''
                     }
                 </div>
                 </div>
@@ -206,7 +206,7 @@ export default function Page() {
                     formState.errors?.other && formState.errors.other[0] ? 
                     <span className="text-red-500">{
                         formState.errors.other[0]
-                    }</span> : ''
+                    }<br /></span> : ''
                 }
                 <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white-50 font-bold py-2 px-4 rounded">Add Recipe</button>
             </form>

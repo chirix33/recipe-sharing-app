@@ -1,5 +1,4 @@
 import { getUserMeals } from "@/app/lib/functions";
-import type { Meal } from "@/app/lib/types";
 import { DeleteRecipe, UpdateRecipe } from "../global/buttons";
 import Link from "next/link";
 
@@ -11,7 +10,7 @@ export default async function UserRecipes({ email } : { email: string }) {
             <div className="inline-block min-w-full align-middle">
                 <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
                 <div className="md:hidden">
-                    {userMeals?.map((meal: Meal) => (
+                    {userMeals?.map((meal) => (
                     <div
                         key={meal.id}
                         className="mb-6 w-full rounded-md bg-white p-4 border-b pb-4"
@@ -23,19 +22,19 @@ export default async function UserRecipes({ email } : { email: string }) {
                                 </div>
                                 <p className="mb-3 text-sm text-gray-500">
                                     <span className="text-black">Category:</span> {
-                                        meal.category.map((category, index) => index + 1 === meal.category.length ? category : category + ", ")
+                                        meal.category.map((category: string, index: number) => index + 1 === meal.category.length ? category : category + ", ")
                                     }
                                 </p>
                                 
                                 <p className="mb-3 text-sm text-gray-500">
                                     <span className="text-black">Meal Type:</span> {
-                                        meal.mealType.map((mealType, index) => index + 1 === meal.mealType.length ? mealType : mealType + ", ")
+                                        meal.mealtype.map((mealType: string, index: number) => index + 1 === meal.mealtype.length ? mealType : mealType + ", ")
                                     }
                                 </p>
 
                                 <p className="text-sm text-gray-500">
                                     <span className="text-black">Sub Category:</span> {
-                                        meal.subCategory.map((subCategory, index) => index + 1 === meal.subCategory.length ? subCategory : subCategory + ", ")
+                                        meal.subcategory.map((subCategory: string, index: number) => index + 1 === meal.subcategory.length ? subCategory : subCategory + ", ")
                                     }
                                 </p>
                             </div>
@@ -81,7 +80,7 @@ export default async function UserRecipes({ email } : { email: string }) {
                         </td>
                         <td className="whitespace-normal px-3 py-3">
                             {
-                            meal.category.map((category, index) => 
+                            meal.category.map((category: string, index: number) => 
                                 (  
                                     index + 1 === meal.category.length ? category : category + ", " )
                                 )
@@ -89,17 +88,17 @@ export default async function UserRecipes({ email } : { email: string }) {
                         </td>
                         <td className="whitespace-normal px-3 py-3">
                             {
-                            meal.mealType.map((mealType, index) => 
+                            meal.mealtype.map((mealType: string, index: number) => 
                                 (  
-                                    index + 1 === meal.mealType.length ? mealType : mealType + ", " )
+                                    index + 1 === meal.mealtype.length ? mealType : mealType + ", " )
                                 )
                             }
                         </td>
                         <td className="whitespace-normal px-3 py-3">
                             {
-                            meal.subCategory.map((subCategory, index) => 
+                            meal.subcategory.map((subCategory: string, index: number) => 
                                 (  
-                                    index + 1 === meal.subCategory.length ? subCategory : subCategory + ", " )
+                                    index + 1 === meal.subcategory.length ? subCategory : subCategory + ", " )
                                 )
                             }
                         </td>
