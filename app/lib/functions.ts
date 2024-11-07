@@ -41,6 +41,16 @@ export async function getUserMeals(userEmail: string): Promise<Array<QueryResult
     }
 }
 
+export async function getAllMeals(): Promise<Array<QueryResultRow>> {
+    try {
+        const meals = await sql`SELECT meals.id, meals.name, meals.mealtype, meals.image, users.name AS chef FROM meals JOIN users ON meals.user_email = users.email`;
+        return meals.rows;
+    } catch (error) {
+        console.error('Failed to get all meals:', error);
+        return [];
+    }
+}
+
 export async function getUser(email: string): Promise<User | false> {
     if (email === '') return false;
     const user = await sql`SELECT * FROM users WHERE email = ${email}`;
