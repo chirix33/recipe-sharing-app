@@ -1,4 +1,4 @@
-# Recipe Sharing App
+# Recipe Sharing Platform
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
@@ -26,18 +26,19 @@ yarn dev
 pnpm dev
 # or
 bun dev
-
+```
 Open http://localhost:3000 with your browser to see the result.
 
 You can start editing the page by modifying app/page.tsx. The page auto-updates as you edit the file.
 
-Technologies Used
-Next.js
-React
-Tailwind CSS
-TypeScript
-NextAuth.js for authentication
-JSON for the users storage. It is a front end project! Don't roast me! Might add PostgreSQL/Supabase in the future
+## Technologies Used
+1. Next.js
+2. Tailwind CSS
+3. TypeScript
+4. NextAuth.js for authentication
+5. PostgreSQL
+6. Vercel
+
 Contributing
 Contributions are welcome! Please open an issue or submit a pull request.
 
