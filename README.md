@@ -14,23 +14,6 @@ The Recipe Sharing App is a platform where users can share and discover new reci
 - Save favorite recipes
 - Leave comments and ratings on recipes
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-Open http://localhost:3000 with your browser to see the result.
-
-You can start editing the page by modifying app/page.tsx. The page auto-updates as you edit the file.
-
 ## Technologies Used
 1. Next.js
 2. Tailwind CSS
@@ -38,18 +21,3 @@ You can start editing the page by modifying app/page.tsx. The page auto-updates 
 4. NextAuth.js for authentication
 5. PostgreSQL
 6. Vercel
-
-Contributing
-Contributions are welcome! Please open an issue or submit a pull request.
-
-License
-This project is licensed under the MIT License.
-
-
-### Explanation
-
-- **About the App**: Added a section to describe the purpose and functionality of the app.
-- **Features**: Listed the main features of the app.
-- **Technologies Used**: Included the technologies and libraries used in the project.
-- **Contributing**: Added a section to encourage contributions.
-- **License**: Specified the license for the project.
