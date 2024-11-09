@@ -6,7 +6,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
   const user = await auth();
   return (
     // Nav for all the Recipe Pages
-    <div className="flex flex-col">
+    <div className="flex flex-col h-screen">
       <header className="flex justify-between bg-mallard-500 text-white p-4">
         <h1 className="text-xl">Explore Recipes</h1>
         {
