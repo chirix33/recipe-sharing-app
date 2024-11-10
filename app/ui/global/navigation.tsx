@@ -10,7 +10,7 @@ export default function Navigation() {
     const links = [
         { href: "/dashboard", label: "Dashboard", icon: <UserCircleIcon className="inline w-6 h-6" /> },
         { href: "/dashboard/add", label: "Add Recipe", icon: <PlusIcon className="inline w-6 h-6" /> },
-        { href: "/home", label: "All Recipes", icon: <ClipboardDocumentListIcon className="inline w-6 h-6" /> }
+        { href: "/recipes", label: "All Recipes", icon: <ClipboardDocumentListIcon className="inline w-6 h-6" /> }
     ];
 
     const pathname = usePathname();

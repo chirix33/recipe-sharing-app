@@ -76,7 +76,7 @@ export default async function UserRecipes({ email } : { email: string }) {
                         className="w-full hover:bg-white-50 border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                         >
                         <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                            <Link href={`/home/${meal.id}/`} className="hover:underline hover:text-white-600"><span className="font-bold">{meal.name}</span></Link>
+                            <Link href={`/recipes/${meal.id}/`} className="hover:underline hover:text-white-600"><span className="font-bold">{meal.name}</span></Link>
                         </td>
                         <td className="whitespace-normal px-3 py-3">
                             {

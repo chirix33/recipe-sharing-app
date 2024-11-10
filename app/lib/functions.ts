@@ -79,3 +79,38 @@ export async function getRecipeImageURL(recipeId: string): Promise<string | fals
         return false;
     }
 }
+
+// A function to generate random placeholder sentences for recipe search input
+export function generatePlaceholder(): string {
+    const placeholders = [
+        "Dinner",
+        "Lunch",
+        "Breakfast",
+        "Dessert",
+        "Snack",
+        "Appetizer",
+        "Main Course",
+        "Side Dish",
+        "Beverage",
+        "Cocktail",
+        "Mocktail",
+        "Soup",
+        "Salad",
+        "Sandwich",
+        "Bread",
+        "Pasta",
+        "Rice",
+        "Noodle",
+        "Pizza",
+        "Burger",
+        "Taco",
+        "Burrito",
+        "Wrap",
+        "Sushi",
+        "Lasagna",
+        "Casserole",
+        "Stew",
+    ];
+    const placeholder = Math.floor(Math.random() * placeholders.length);
+    return placeholders[placeholder];
+}

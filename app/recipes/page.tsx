@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getAllMeals } from "../lib/functions";
+import { generatePlaceholder, getAllMeals } from "../lib/functions";
 
 export default async function Page() {
     const meals = await getAllMeals(10);
@@ -8,13 +8,19 @@ export default async function Page() {
         <>
         <div className="mb-8 w-full h-28 bg-white-100 flex flex-col justify-center items-center p-4">
             <h2>Search for Recipes</h2>
+            <form>
+                <input 
+                type="text" 
+                placeholder={`Eg, '${generatePlaceholder()}'`} 
+                className="w-1/2 p-2 my-2 border-2 border-black rounded-md" />
+            </form>
         </div>
         <div className="flex flex-col items-center">
             {/* <h2 className="text-2xl mb-2">Featured Recipes</h2> */}
             <div className="w-full p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {
                     meals.map((meal) => (
-                        <Link href={`/home/${meal.id}`} key={meal.id} className="hover:transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#fec445] transition-all duration-150 cursor-pointer p-4 bg-stone-50 rounded-lg text-zinc-700">
+                        <Link href={`/recipes/${meal.id}`} key={meal.id} className="hover:transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#fec445] transition-all duration-150 cursor-pointer p-4 bg-stone-50 rounded-lg text-zinc-700">
                             <div className="w-full h-48 bg-zinc-200 mb-4">
                                 <Image src={meal.image} alt={meal.name} className="w-full h-full object-cover" height={300} width={300}/>
                             </div>

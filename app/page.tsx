@@ -18,7 +18,7 @@ export default async function Home() {
               Sign In
           </Link>
           <br />
-          <Link href="/home" className="inline-block mt-3 text-mallard-500 border border-white-200 bg-white-50 px-6 py-3 rounded-md text-lg font-medium hover:bg-mallard-100 hover:text-white-500">
+          <Link href="/recipes" className="inline-block mt-3 text-mallard-500 border border-white-200 bg-white-50 px-6 py-3 rounded-md text-lg font-medium hover:bg-mallard-100 hover:text-white-500">
               Explore Recipes
           </Link>
         </div>
