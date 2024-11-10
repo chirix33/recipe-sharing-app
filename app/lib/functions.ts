@@ -62,6 +62,7 @@ export async function getAllMeals(limit: number = 0): Promise<Array<QueryResultR
 
 export async function getUser(email: string): Promise<User | false> {
     if (email === '') return false;
+    
     const user = await sql`SELECT * FROM users WHERE email = ${email}`;
     if (user) {
         return user.rows[0] as User;

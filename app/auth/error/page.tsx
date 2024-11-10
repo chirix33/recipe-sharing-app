@@ -11,6 +11,9 @@ const ErrorPage: React.FC = () => {
         <p className="text-gray-700 mb-6">
           Oops! Something went wrong while trying to sign you in. Please check your credentials and try again.
         </p>
+        <p className="text-gray-700 mb-6">
+          Possible reason for this error might be <b>using Google Sign In when you already have an account with the same email address</b>.
+        </p>
         <Link
           href={login}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"

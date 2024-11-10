@@ -3,7 +3,7 @@ export interface User  {
   name: string;
   email: string;
   password: string;
-  accountType: 'email' | 'google';
+  accounttype: 'email' | 'google';
   image: string;
 };
 

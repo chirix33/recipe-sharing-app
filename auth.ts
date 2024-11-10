@@ -6,20 +6,6 @@ import Google from 'next-auth/providers/google';
 import { z } from 'zod';
 import { getUser, createUser } from './app/lib/functions';
 
-// async function getUser(email: string): Promise<User | undefined> {
-//     try {
-//       if (email === '') throw new Error('Failed to fetch user.');
-//       const filePath = path.join(process.cwd(), 'app', 'data', 'users.json');
-//       const fileContents = await fs.readFile(filePath, 'utf-8');
-//       const allUsers = JSON.parse(fileContents);
-//       const users = allUsers.users as User[];
-//       return users.find((user) => user.email === email);
-//     } catch (error) {
-//         console.error('Failed to fetch user:', error);
-//         throw new Error('Failed to fetch user.');
-//     }
-// }
-
 export const authConfig: NextAuthConfig = {
   pages: {
     signIn: '/login',
@@ -39,7 +25,6 @@ export const authConfig: NextAuthConfig = {
         if (!user) return null;
         const comparePassword = password === user.password;
         if (comparePassword) {
-          // console.log("User: ", user); 
           return {
             ...user,
             authorizationType: credentials.authorizationType
@@ -79,9 +64,9 @@ export const authConfig: NextAuthConfig = {
       if (account?.provider == 'google') {
         const userEmail = user.email?.toString() || '';
         const checkEmail = await getUser(userEmail);
-
+        
         // If user is signing up
-        if (checkEmail && checkEmail.accountType == "email") {
+        if (checkEmail && checkEmail.accounttype == "email") {
           // User is already registered as an email user, not google user
           console.log('User already exists as an email account.');
           return false;
