@@ -1,4 +1,4 @@
-import { generatePlaceholder, getAllMeals } from "../lib/functions";
+import { generatePlaceholder } from "../lib/functions";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/solid";
 import { Suspense } from "react";
 import RecipeList from "../ui/recipes/recipeList";
