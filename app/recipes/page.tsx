@@ -10,7 +10,8 @@ export default async function Page() {
         <div className="mb-8 w-full h-auto lg:h-28 bg-white-100 flex flex-col justify-center items-center p-4">
             <form method="get" className="w-3/4 flex items-center justify-center flex-col lg:flex-row gap-2 lg:gap-px">
                 <input 
-                type="text" 
+                type="text"
+                name="search"
                 autoFocus={true}
                 placeholder={`Eg, '${generatePlaceholder()}'`} 
                 className="flex-1 basis-3/4 w-full lg:w-1/2 p-2 my-2 outline-none pl-4 font-bold" />
