@@ -1,6 +1,6 @@
-import LoginForm from "@/app/ui/forms/login-form";
 import Logo from "../ui/global/logo";
 import { Suspense } from "react";
+import LoginForm from "@/app/ui/forms/login-form";
 import { FormSkeleton } from "@/app/ui/skeletons/formSkeletons";
 
 export default function Page() {
