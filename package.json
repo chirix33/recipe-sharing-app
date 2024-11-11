@@ -19,8 +19,8 @@
     "jwt-decode": "^4.0.0",
     "next": "^14.2.13",
     "next-auth": "^5.0.0-beta.20",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "19.0.0-rc-5c56b873-20241107",
+    "react-dom": "19.0.0-rc-5c56b873-20241107",
     "react-multi-select-component": "^4.3.4",
     "uuid": "^10.0.0",
     "zod": "^3.23.8"

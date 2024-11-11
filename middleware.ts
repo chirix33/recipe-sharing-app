@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 export default async function middleware(request: NextRequest) {
   const visitingURL = request.nextUrl.pathname;
   const session = await auth();
-  if (visitingURL === '/dashboard') {
+  if (visitingURL.startsWith('/dashboard')) {
     if (!session) {
       return NextResponse.redirect(new URL('/login', request.nextUrl));
     }

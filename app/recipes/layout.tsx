@@ -11,8 +11,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
         <h1 className="text-xl">Explore Recipes</h1>
         {
           user ? 
-          (<Link href="/dashboard" className="underline text-emerald-950 font-bold flex items-center justify-center gap-2"><UserCircleIcon className="w-6 h-6" /> My Account</Link>) : 
-          (<Link href="/login" className="underline text-emerald-950 font-bold flex items-center justify-center gap-2"><ArrowRightEndOnRectangleIcon className="w-6 h-6" /> Login / Sign Up</Link>)
+          (<Link href="/dashboard" className="text-emerald-950 font-bold flex items-center justify-center gap-2"><UserCircleIcon className="w-6 h-6" /> My Account</Link>) : 
+          (<Link href="/login" className="text-emerald-950 font-bold flex items-center justify-center gap-2"><ArrowRightEndOnRectangleIcon className="w-6 h-6" /> Login / Sign Up</Link>)
         }
       </header>
       <main className="flex-1">{children}</main>
