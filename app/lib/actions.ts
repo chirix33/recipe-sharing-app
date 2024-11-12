@@ -15,7 +15,7 @@ import { sql } from '@vercel/postgres';
 export async function authenticate(prevState: string | undefined, formData: FormData) {
     const loginType = formData.get('type') as string;
     try {
-        await signIn(loginType, formData);
+        await signIn(loginType, formData, { redirectTo: '/dashboard' });
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

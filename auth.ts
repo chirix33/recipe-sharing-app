@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import type { NextAuthConfig } from 'next-auth';
-import { NextResponse } from 'next/server';
+// import { NextResponse } from 'next/server';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
 import { z } from 'zod';
@@ -50,12 +50,12 @@ export const authConfig: NextAuthConfig = {
     })
   ],
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
+    authorized({ auth }) {
       console.log("Authorized callback");
       const isLoggedIn = !!auth?.user;
       if (isLoggedIn) {
         // Redirect authenticated users to dashboard
-        return NextResponse.redirect(new URL('/dashboard', nextUrl));
+        return !!auth?.user;
       }
       return false;
     },
@@ -97,7 +97,6 @@ export const authConfig: NextAuthConfig = {
           return token;
         }
   
-        // console.log('Token:', obj);
         return obj;
       }
   
@@ -105,11 +104,7 @@ export const authConfig: NextAuthConfig = {
       return token;
     },
     async session ({ session, token, user }) { 
-      // const sessionObj = {
-      //   ...session
-      // };
-  
-      // if (token) {
+      
         const sessionObj = {
           ...session,
           ...user,
@@ -117,9 +112,6 @@ export const authConfig: NextAuthConfig = {
           refreshToken: token.refreshToken,
           provider: token.provider
         };
-  
-        // return sessionObj;
-      // }
   
       return sessionObj;
     }
