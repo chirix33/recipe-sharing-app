@@ -20,6 +20,10 @@ export function generateColor(withHash : boolean = false): string {
     return withHash ? `#${colors[color]}` : colors[color];
 }
 
+export function capitalize(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export async function createUser(name: string, email: string, password: string, accountType: 'email' | 'google', id: string = randomUUID()): Promise<void> {
     // Create the user object and insert it into users.json
     const color = generateColor();
@@ -98,6 +102,16 @@ export async function getRecipeImageURL(recipeId: string): Promise<string | fals
         return image.rows[0].image;
     } catch (error) {
         console.error('Failed to get recipe image URL:', error);
+        return false;
+    }
+}
+
+export async function getRecipe(id: string): Promise<QueryResultRow | false> {
+    try {
+        const recipe = await sql`SELECT meals.id, meals.name, meals.category, meals.mealtype, meals.subcategory, meals.ingredients, meals.instructions, meals.image, users.name AS chef FROM meals JOIN users ON meals.user_email = users.email WHERE meals.id = ${id}`;
+        return recipe.rows[0];
+    } catch (error) {
+        console.error('Failed to get recipe:', error);
         return false;
     }
 }

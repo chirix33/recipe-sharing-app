@@ -22,3 +22,7 @@ export default function RecipeListSkeleton() {
         </div>
     );
 }
+
+export function RecipeInfoSkeleton() {
+    return (<></>)
+}

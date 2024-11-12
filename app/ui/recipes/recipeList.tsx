@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getAllMeals } from "@/app/lib/functions";
+import { getAllMeals, capitalize } from "@/app/lib/functions";
 
 export default async function RecipeList({ query }: { query?: string }) {
     let meals = [];
@@ -27,7 +27,7 @@ export default async function RecipeList({ query }: { query?: string }) {
                                 <span className={`font-bold mt-1 p-2 w-fit underline`}>
                                     {
                                         meal.mealtype.map((type: string) => (
-                                            <span key={type} className="mr-2">{type.charAt(0).toUpperCase() + type.slice(1, type.length)}</span>
+                                            <span key={type} className="mr-2">{capitalize(type)}</span>
                                         ))
                                     }
                                 </span>
