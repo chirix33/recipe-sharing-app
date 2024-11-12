@@ -41,7 +41,7 @@ export async function getUserMeals(userEmail: string): Promise<Array<QueryResult
     }
 }
 
-export async function getAllMeals(limit: number = 0): Promise<Array<QueryResultRow>> {
+export async function getAllMeals(limit: number = 0, query: string = ''): Promise<Array<QueryResultRow>> {
     let meals = {
         rows: []
     };
@@ -50,7 +50,29 @@ export async function getAllMeals(limit: number = 0): Promise<Array<QueryResultR
         if (limit > 0) {
             meals = await sql`SELECT meals.id, meals.name, meals.mealtype, meals.image, users.name AS chef FROM meals JOIN users ON meals.user_email = users.email LIMIT ${limit}`;
         } else {
-            meals = await sql`SELECT meals.id, meals.name, meals.mealtype, meals.image, users.name AS chef FROM meals JOIN users ON meals.user_email = users.email`;
+            if (query !== '') {
+                meals = await sql`SELECT meals.id, meals.name, meals.mealtype, meals.image, users.name AS chef
+                    FROM meals
+                    JOIN users ON meals.user_email = users.email
+                    WHERE meals.name ILIKE '%' || ${query} || '%'
+                        OR EXISTS (
+                            SELECT 1
+                            FROM json_array_elements_text(meals.category) AS elem
+                            WHERE elem ILIKE '%' || ${query} || '%'
+                        )
+                        OR EXISTS (
+                            SELECT 1
+                            FROM json_array_elements_text(meals.mealtype) AS elem
+                            WHERE elem ILIKE '%' || ${query} || '%'
+                        )
+                        OR EXISTS (
+                            SELECT 1
+                            FROM json_array_elements_text(meals.subcategory) AS elem
+                            WHERE elem ILIKE '%' || ${query} || '%'
+                        )`;
+            } else {
+                meals = await sql`SELECT meals.id, meals.name, meals.mealtype, meals.image, users.name AS chef FROM meals JOIN users ON meals.user_email = users.email`;
+            }
         }
 
         return meals.rows;

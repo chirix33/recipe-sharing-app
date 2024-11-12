@@ -9,7 +9,7 @@ export default function Page({ searchParams }:  { searchParams?: {search?: strin
     return (
         <>
         <div className="mb-8 w-full h-auto lg:h-28 bg-white-200 flex flex-col justify-center items-center p-4">
-            <form method="get" className="w-3/4 flex items-center justify-center flex-col lg:flex-row gap-2 lg:gap-px">
+            <form method="get" className="w-3/4 flex items-center justify-center flex-col lg:flex-row gap-2 lg:gap-0">
                 <input 
                 type="text"
                 name="search"
@@ -19,7 +19,7 @@ export default function Page({ searchParams }:  { searchParams?: {search?: strin
                 
                 <button 
                 type="submit" 
-                className="flex-0 flex items-center justify-center gap-px w-full lg:w-auto lg:basis-1/4 p-2 bg-mallard-400 text-white-100">
+                className="flex-0 font-bold flex items-center justify-center gap-px w-full lg:w-auto lg:basis-1/4 p-2 bg-mallard-400 text-white-100 hover:bg-white-100 hover:text-mallard-400 transition-all transition-duration-300">
                     <MagnifyingGlassCircleIcon className="w-6 h-6" />
                     Search
                 </button>
