@@ -2,25 +2,26 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { playwrite } from '@/app/ui/global/fonts';
 
-export default async function Home() {
+export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
       {/* Hero Section */}
       <div className="w-full bg-white ">
         <div className="container mx-auto px-6 py-16 text-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Welcome to <span className={playwrite.className}>RecipeShare</span>
+          <h1 className="text-2xl lg:text-4xl font-bold text-gray-800 mb-4">
+            <span className={playwrite.className}>RecipeShare</span>
           </h1>
           <p className="text-lg text-gray-600 mb-8">
             Discover and share amazing recipes with our community.
           </p>
-          <Link href="/login" className="inline-block bg-mallard-500 text-white-50 px-6 py-3 rounded-md text-lg font-medium hover:bg-white-50 hover:text-mallard-500 border hover:border-mallard-500">
-              Sign In
-          </Link>
-          <br />
-          <Link href="/recipes" className="inline-block mt-3 text-mallard-500 border border-white-200 bg-white-50 px-6 py-3 rounded-md text-lg font-medium hover:bg-mallard-100 hover:text-white-500">
-              Explore Recipes
-          </Link>
+          <p className="flex flex-row lg:flex-col gap-2 justify-center items-center">
+            <Link href="/login" className="inline-block bg-mallard-500 text-white-50 px-6 py-3 rounded-md text-lg font-medium hover:bg-white-50 hover:text-mallard-500 border hover:border-mallard-500">
+                Sign In
+            </Link>
+            <Link href="/recipes" className="inline-block text-mallard-500 border border-white-200 bg-white-50 px-6 py-3 rounded-md text-lg font-medium hover:bg-mallard-100 hover:text-white-500">
+                Explore Recipes
+            </Link>
+          </p>
         </div>
       </div>
 

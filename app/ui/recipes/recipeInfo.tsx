@@ -1,10 +1,16 @@
-import { QueryResultRow } from 'pg';
+import { notFound } from "next/navigation";
 import Breadcrumbs from '../global/breadcrumbs';
 import Image from 'next/image';
 import { capitalize } from '@/app/lib/functions';
 import { ClipboardDocumentListIcon, FlagIcon } from '@heroicons/react/20/solid';
+import { getRecipe } from "@/app/lib/functions";
 
-export default function RecipeInfo({ recipe } : { recipe: QueryResultRow }) {
+export default async function RecipeInfo({ id } : { id: string }) {
+    const recipe = await getRecipe(id);
+    if (!recipe) {
+        notFound();
+    }
+
     const links = [
         { label: 'Recipes', href: '/recipes' },
         { label: recipe.name, href: `/recipes/${recipe.id}`, active: true }
@@ -17,7 +23,10 @@ export default function RecipeInfo({ recipe } : { recipe: QueryResultRow }) {
                 <div className="recipe-image w-full h-96">
                     <Image src={recipe.image} alt={recipe.name} height={600} width={600} className='w-full h-full object-cover' />
                 </div>
-                <h2 className="text-2xl text-center my-4">{recipe.name}</h2>
+                <div className="my-8">
+                    <h2 className="text-2xl text-center">{recipe.name}</h2>
+                    <p className="text-sm text-center">By: {recipe.chef}</p>
+                </div>
                 <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <div>
                         <h3>Categories:</h3>
