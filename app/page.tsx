@@ -26,7 +26,7 @@ export default function Home() {
       </div>
 
       {/* Features Section */}
-      <div className="container mx-auto px-6 py-16">
+      <div className="container mx-auto px-6 pb-16">
         <div className="flex flex-wrap -mx-4">
           <div className="w-full md:w-1/2 px-4 mb-8 md:mb-0">
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
