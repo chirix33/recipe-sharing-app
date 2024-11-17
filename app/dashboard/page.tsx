@@ -14,7 +14,7 @@ export default async function Page() {
         <UserImage 
         divClassName="flex justify-center items-center mt-4 mb-4" 
         userImage={userImage} 
-        imageClassName="w-16 h-16 rounded-full" />
+        imageClassName="w-20 h-20 rounded-full" />
 
         <h1 className="text-2xl text-center">Your Recipes, <span className={`${playwrite.className} block`}>{session?.user?.name}</span></h1>
         
