@@ -81,6 +81,7 @@ export async function validate(prevState: FormState, formData: FormData) {
     }
 
     await signIn("credentials", formData, { redirectTo: '/dashboard' });
+    return { errors: {} };
 }
 
 // Function to sign out the user
