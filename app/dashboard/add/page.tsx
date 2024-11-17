@@ -72,7 +72,7 @@ export default function Page() {
                     <span className="block sm:inline">You can now add another recipe. <a href="/dashboard" className="text-white-600 underline">View your recipes here</a></span>
                 </div>
             }
-            <h1 className="text-xl">Add Recipe</h1>
+            <h1 className="hidden lg:block text-xl">Add Recipe</h1>
             <form action={setFormState} className="mt-4 space-y-6 w-full">
                 <div className="relative mb-3">
                     <label htmlFor="name" className="text-sm font-medium text-gray-500">Recipe Title</label>
