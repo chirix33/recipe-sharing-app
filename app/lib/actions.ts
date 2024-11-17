@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { auth, signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import type { Meal, MealCategory, SubCategory, MealType } from '@/app/lib/types';
-import { redirect } from 'next/navigation';
 import { getUser, createUser, getRecipeImageURL } from './functions';
 import { randomUUID } from 'crypto';
 import { put, del } from '@vercel/blob';
@@ -81,7 +80,7 @@ export async function validate(prevState: FormState, formData: FormData) {
         return { errors: { email: ['Failed to validate form.'] } };
     }
 
-    redirect('/login?new=true&email=' + email);
+    await signIn("credentials", formData, { redirectTo: '/dashboard' });
 }
 
 // Function to sign out the user
