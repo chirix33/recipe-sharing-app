@@ -1,6 +1,7 @@
 import { randomUUID } from 'crypto';
 import type { User } from './types';
 import { QueryResultRow, sql } from '@vercel/postgres';
+import bcrypt from 'bcryptjs';
 
 export function generateColor(withHash : boolean = false): string {
     const colors = [
@@ -29,7 +30,13 @@ export async function createUser(name: string, email: string, password: string, 
     const color = generateColor();
     const picture = `https://api.dicebear.com/9.x/adventurer/svg?seed=${name}&flip=true&backgroundColor=${color}`;
    try {
-        await sql`INSERT INTO users (id, name, email, password, image, accounttype) VALUES (${id}, ${name}, ${email}, ${password}, ${picture}, ${accountType})`;
+        // Hash the password
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(password, salt, async (err, hash) => {
+                // Insert the user into the database
+                await sql`INSERT INTO users (id, name, email, password, image, accounttype) VALUES (${id}, ${name}, ${email}, ${hash}, ${picture}, ${accountType})`;
+            });
+        });
    } catch (error) {
         console.error('Failed to create user:', error);
    }

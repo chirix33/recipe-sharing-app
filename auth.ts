@@ -5,6 +5,7 @@ import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
 import { z } from 'zod';
 import { getUser, createUser } from './app/lib/functions';
+import bcrypt from 'bcryptjs';
 
 export const authConfig: NextAuthConfig = {
   pages: {
@@ -23,8 +24,9 @@ export const authConfig: NextAuthConfig = {
         const { email, password } = parsedCredentials.data;
         const user = await getUser(email);
         if (!user) return null;
-        const comparePassword = password === user.password;
-        if (comparePassword) {
+        
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (isValidPassword) {
           return {
             ...user,
             authorizationType: credentials.authorizationType
