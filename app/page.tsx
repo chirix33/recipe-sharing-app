@@ -5,7 +5,7 @@ import { playwrite } from '@/app/ui/global/fonts';
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
-      {/* Hero Section */}
+      {/* Hero */}
       <div className="w-full bg-[url('/images/main_header_pic.jpg')] bg-cover bg-center">
         <div className="w-full flex flex-col items-center justify-center px-6 py-16 text-center bg-slate-900/50 text-slate-50">
           <h1 className="text-2xl lg:text-4xl font-bold mb-4">
@@ -22,6 +22,7 @@ export default function Home() {
         </div>
       </div>
 
+      {/* About */}
       <div className="flex flex-col lg:flex-row items-center justify-center w-full h-auto lg:h-96 my-8 lg:my-16 p-4 gap-4 lg:gap-6">
         {/* Image 1 */}
         <div className='hidden lg:block flex-0 basis-1/2 lg:basis-1/4 h-full lg:h-full'>
@@ -80,8 +81,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Footer Section */}
-      <div className="w-full bg-mallard-600 text-white-50 py-16">
+      {/* Footer */}
+      <footer className="w-full bg-mallard-600 text-white-50 py-16">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-4">Join RecipeShare Today</h2>
           <p className="text-lg mb-8">
@@ -91,35 +92,8 @@ export default function Home() {
               Sign Up
           </Link>
         </div>
-      </div>
+      </footer>
 
-      {/* Features Section */}
-      {/* <div className="container mx-auto px-6 pb-16">
-        <div className="flex flex-wrap -mx-4">
-          <div className="w-full md:w-1/2 px-4 mb-8 md:mb-0">
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <div className="flex flex-column items-center justify-center">
-                    <Image src="/images/feature1.webp" alt="Feature 1" width={300} height={200} className="mb-4 rounded-md" />
-                </div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">Share Your Recipes</h2>
-                <p className="text-gray-600">
-                    Easily share your favorite recipes with our community and get feedback.
-                </p>
-            </div>
-          </div>
-          <div className="w-full md:w-1/2 px-4 mb-8 md:mb-0">
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-               <div className='flex flex-column items-center justify-center'>
-                   <Image src="/images/feature2.webp" alt="Feature 2" width={300} height={200} className="mb-4 rounded-md" />
-                </div> 
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">Discover New Recipes</h2>
-                <p className="text-gray-600">
-                    Explore a wide variety of recipes from different cuisines and cultures.
-                </p>
-            </div>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 }
