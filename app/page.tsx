@@ -6,16 +6,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
       {/* Hero Section */}
-      <div className="w-full bg-white ">
-        <div className="container mx-auto px-6 py-16 text-center">
-          <h1 className="text-2xl lg:text-4xl font-bold text-gray-800 mb-4">
+      <div className="w-full bg-[url('/images/main_header_pic.jpg')] bg-cover bg-center">
+        <div className="w-full! flex flex-col items-center justify-center px-6 py-16 text-center bg-slate-900/50 text-slate-50">
+          <h1 className="text-2xl lg:text-4xl font-bold mb-4">
             <span className={playwrite.className}>RecipeShare</span>
           </h1>
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-lg mb-8">
             Discover and share amazing recipes with our community.
           </p>
           <p className="flex flex-row lg:flex-col gap-2 justify-center items-center">
-            <Link href="/login" className="inline-block bg-mallard-500 text-white-50 px-6 py-3 rounded-md text-lg font-medium hover:bg-white-50 hover:text-mallard-500 border hover:border-mallard-500">
+            <Link href="/login" className="inline-block bg-mallard-600 text-white-50 px-6 py-3 rounded-md text-lg font-medium hover:bg-white-50 hover:text-mallard-500 hover:border-mallard-500">
                 Sign In
             </Link>
             <Link href="/recipes" className="inline-block text-mallard-500 border border-white-200 bg-white-50 px-6 py-3 rounded-md text-lg font-medium hover:bg-mallard-100 hover:text-white-500">
