@@ -22,34 +22,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Login Section */}
-      {/* <div className="flex items-center justify-start w-full h-96 my-16 p-4">
-        <div className='flex-0 basis-1/4 h-full'>
-          <Image alt="Sandwich" width={640} height={960} src={`/images/sandwich.jpg`} className="object-contain h-full" />
-        </div>
-
-        <div className='flex-0 basis-1/4 h-full'>
-          <Image alt="Sandwich" width={360} height={514} src={`/images/squash_salad.jpg`} className="object-contain h-full" />
-        </div>
-
-        <div className="flex-1 flex flex-col relative text-center text-slate-700 h-full p-6 bg-gray-200">
-          <div className="flex-0 basis-1/5">
-            <h3 className="text-xl flex-0"><span className={playwrite.className}>Taste</span> with an account</h3>
-          </div>
-          <div className="flex-1 mt-4">
-            <p className="mb-4 text-base">
-              Sign in to your account to save and share your favorite recipes.
-              Dive into a world of deliciousness—share your favorite recipes and discover hidden gems from fellow foodies!
-            </p>
-          </div>
-          <div className="absolute bottom-0 left-0 w-full bg-transparent p-2 lg:p-6">
-            <Link href="/login" className="font-bold inline-block bg-mallard-700 text-white-50 px-6 py-3 rounded-md text-lg hover:bg-white-50 hover:text-mallard-700 transition transition-300">
-                Sign In
-            </Link>
-          </div>
-        </div>
-      </div> */}
-
       <div className="flex flex-col lg:flex-row items-center justify-center w-full h-auto lg:h-96 my-8 lg:my-16 p-4 gap-4 lg:gap-6">
         {/* Image 1 */}
         <div className='hidden lg:block flex-0 basis-1/2 lg:basis-1/4 h-full lg:h-full'>
