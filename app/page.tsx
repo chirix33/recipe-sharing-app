@@ -82,7 +82,7 @@ export default function Home() {
       </div>
 
       {/* Parallax Image */}
-      <div className="w-full bg-[url('/images/parallax_image.jpg')] bg-cover bg-fixed bg-center h-96">
+      <div className="w-full bg-[url('/images/parallax_image.jpg')] bg-contain lg:bg-cover lg:bg-fixed bg-center h-48 lg:h-96">
         <div className="w-full h-full flex flex-col items-center justify-center px-6 py-16 text-center bg-slate-900/50 text-slate-50">
         </div>
       </div>
