@@ -22,7 +22,7 @@ export default async function RecipeList({ query }: { query?: string }) {
                             <div id="recipe-card-details" className="w-full flex flex-col justify-center">
                                 <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center">
                                     <h3 className="text-xl">{meal.name}</h3>
-                                    <span className={`text-sm lg:text-xs mt-1 lg:mt-0 p-2 rounded-md bg-mallard-300 w-fit`}>By: {meal.chef}</span>
+                                    <span className={`text-sm lg:text-xs mt-1 lg:mt-0 p-2 rounded-md bg-mallard-300 w-fit flex gap-2 items-center justify-center`}><Image width={24} height={24} className="w-6 h-6 rounded-full" src={meal.chef_image} alt={`${meal.chef}'s Avatar`} /> <span>{meal.chef}</span></span>
                                 </div>
                                 <span className={`font-bold mt-1 p-2 w-fit underline`}>
                                     {

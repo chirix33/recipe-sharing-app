@@ -59,10 +59,10 @@ export async function getAllMeals(limit: number = 0, query: string = ''): Promis
 
     try {
         if (limit > 0) {
-            meals = await sql`SELECT meals.id, meals.name, meals.mealtype, meals.image, users.name AS chef FROM meals JOIN users ON meals.user_email = users.email LIMIT ${limit}`;
+            meals = await sql`SELECT meals.id, meals.name, meals.mealtype, meals.image, users.image AS chef_image, users.name AS chef FROM meals JOIN users ON meals.user_email = users.email LIMIT ${limit}`;
         } else {
             if (query !== '') {
-                meals = await sql`SELECT meals.id, meals.name, meals.mealtype, meals.image, users.name AS chef
+                meals = await sql`SELECT meals.id, meals.name, meals.mealtype, meals.image, users.image AS chef_image, users.name AS chef
                     FROM meals
                     JOIN users ON meals.user_email = users.email
                     WHERE meals.name ILIKE '%' || ${query} || '%'
@@ -82,7 +82,7 @@ export async function getAllMeals(limit: number = 0, query: string = ''): Promis
                             WHERE elem ILIKE '%' || ${query} || '%'
                         )`;
             } else {
-                meals = await sql`SELECT meals.id, meals.name, meals.mealtype, meals.image, users.name AS chef FROM meals JOIN users ON meals.user_email = users.email`;
+                meals = await sql`SELECT meals.id, meals.name, meals.mealtype, meals.image, users.image AS chef_image, users.name AS chef FROM meals JOIN users ON meals.user_email = users.email`;
             }
         }
 
