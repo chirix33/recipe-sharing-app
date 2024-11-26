@@ -58,7 +58,7 @@ export default function Home() {
         </div>
         
         {/* Content Section */}
-        <div className="flex-1 flex flex-col relative text-center text-slate-700 w-full lg:w-auto h-auto p-4 lg:p-6 bg-gray-200">
+        <div className="flex-1 flex flex-col relative text-center text-slate-700 w-full lg:w-auto h-full p-4 lg:p-6 bg-gray-200">
           {/* Title */}
           <div className="flex-0 mb-4 lg:mb-6">
             <h3 className="text-lg lg:text-xl font-semibold">
@@ -78,6 +78,12 @@ export default function Home() {
                 Sign In
             </Link>
           </div>
+        </div>
+      </div>
+
+      {/* Parallax Image */}
+      <div className="w-full bg-[url('/images/parallax_image.jpg')] bg-cover bg-fixed bg-center h-96">
+        <div className="w-full h-full flex flex-col items-center justify-center px-6 py-16 text-center bg-slate-900/50 text-slate-50">
         </div>
       </div>
 
