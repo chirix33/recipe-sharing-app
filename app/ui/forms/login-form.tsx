@@ -18,7 +18,7 @@ export default function LoginForm() {
   return (
     // Prevent mobile screen auto zoom on input focus
     <form action={formAction} className="space-y-3">
-        <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8 overflow-hidden">
+        <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
           <h2 className={`mb-4 text-1xl`}>
             Please log in. <br />
             <Link href="/create" className="text-mallard-600 underline">
