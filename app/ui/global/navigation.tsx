@@ -35,7 +35,7 @@ export default function Navigation() {
           </div>
           
           {/* Navbar on Mobile Screens */}
-          <nav className={`z-50 lg:hidden transition-all transition-300 fixed w-full top-0 left-0 h-dvh bg-mallard-500 flex flex-col justify-center items-center gap-8 nav-menu ${isNavVisible ? 'show' : ''}`}>
+          <nav className={`z-50 lg:hidden transition-all transition-300 fixed w-full top-0 left-0 bg-mallard-500 flex flex-col justify-center items-center gap-8 nav-menu ${isNavVisible ? 'show' : ''}`}>
           <button className="absolute top-5 right-4" onClick={() => setNavVisible(!isNavVisible)}>
             <XMarkIcon className="w-8 h-8" />
           </button>

@@ -26,12 +26,14 @@ input[type='number']::-webkit-outer-spin-button {
 
 /* Add these styles to your CSS file */
 .nav-menu {
+  height: 0px;
   opacity: 0;
   transform: translateY(-20px);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .nav-menu.show {
+  height: 100dvh;
   opacity: 1;
   transform: translateY(0);
 }
