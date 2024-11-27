@@ -172,7 +172,7 @@ export async function addRecipe(
     // Form validated, now validate the image
     const file = formData.get('picture') as File;
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
-    if (!file || !['jpg', 'jpeg', 'png'].includes(fileExtension!)) {
+    if (!file || !['jpg', 'jpeg', 'png', 'webp'].includes(fileExtension!)) {
         return { errors: { imagePreview: ['Please upload a valid image file.'] } };
     }
 
