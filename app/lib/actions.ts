@@ -8,6 +8,7 @@ import { getUser, createUser, getRecipeImageURL } from './functions';
 import { randomUUID } from 'crypto';
 import { put, del } from '@vercel/blob';
 import { sql } from '@vercel/postgres';
+import { revalidatePath } from 'next/cache';
 
 // Function to authenticate user using form data
 // Use the signIn function from next-auth to authenticate user
@@ -100,11 +101,12 @@ export async function deleteRecipe(recipeId: string) {
         await del(imageUrl);
 
         // Delete the recipe from the database
-        const query = `DELETE FROM meals WHERE id = '${recipeId}'`;
-        await sql`${query}`;
+        await sql`DELETE FROM meals WHERE id = ${recipeId}`;
     } catch (error) {
         console.error('Failed to delete the recipe:', error);
     }
+
+    revalidatePath('/dashboard');
 }
 
 export type RecipeFormState = {

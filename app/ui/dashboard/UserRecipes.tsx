@@ -1,4 +1,4 @@
-import { getUserMeals } from "@/app/lib/functions";
+import { getUserMeals, capitalize } from "@/app/lib/functions";
 import { DeleteRecipe, UpdateRecipe } from "../global/buttons";
 import Link from "next/link";
 
@@ -22,19 +22,19 @@ export default async function UserRecipes({ email } : { email: string }) {
                                 </div>
                                 <p className="mb-3 text-sm text-gray-500">
                                     <span className="text-black">Category:</span> {
-                                        meal.category.map((category: string, index: number) => index + 1 === meal.category.length ? category : category + ", ")
+                                        meal.category.map((category: string, index: number) => index + 1 === meal.category.length ? capitalize(category) : capitalize(category) + ", ")
                                     }
                                 </p>
                                 
                                 <p className="mb-3 text-sm text-gray-500">
                                     <span className="text-black">Meal Type:</span> {
-                                        meal.mealtype.map((mealType: string, index: number) => index + 1 === meal.mealtype.length ? mealType : mealType + ", ")
+                                        meal.mealtype.map((mealType: string, index: number) => index + 1 === meal.mealtype.length ? capitalize(mealType) : capitalize(mealType) + ", ")
                                     }
                                 </p>
 
                                 <p className="text-sm text-gray-500">
                                     <span className="text-black">Sub Category:</span> {
-                                        meal.subcategory.map((subCategory: string, index: number) => index + 1 === meal.subcategory.length ? subCategory : subCategory + ", ")
+                                        meal.subcategory.map((subCategory: string, index: number) => index + 1 === meal.subcategory.length ? capitalize(subCategory) : capitalize(subCategory) + ", ")
                                     }
                                 </p>
                             </div>
@@ -82,7 +82,7 @@ export default async function UserRecipes({ email } : { email: string }) {
                             {
                             meal.category.map((category: string, index: number) => 
                                 (  
-                                    index + 1 === meal.category.length ? category : category + ", " )
+                                    index + 1 === meal.category.length ? capitalize(category) : capitalize(category) + ", " )
                                 )
                             }
                         </td>
@@ -90,7 +90,7 @@ export default async function UserRecipes({ email } : { email: string }) {
                             {
                             meal.mealtype.map((mealType: string, index: number) => 
                                 (  
-                                    index + 1 === meal.mealtype.length ? mealType : mealType + ", " )
+                                    index + 1 === meal.mealtype.length ? capitalize(mealType) : capitalize(mealType) + ", " )
                                 )
                             }
                         </td>
@@ -98,7 +98,7 @@ export default async function UserRecipes({ email } : { email: string }) {
                             {
                             meal.subcategory.map((subCategory: string, index: number) => 
                                 (  
-                                    index + 1 === meal.subcategory.length ? subCategory : subCategory + ", " )
+                                    index + 1 === meal.subcategory.length ? capitalize(subCategory) : capitalize(subCategory) + ", " )
                                 )
                             }
                         </td>
