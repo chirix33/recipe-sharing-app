@@ -3,20 +3,32 @@
 import { useState, useRef, useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import Image from 'next/image';
+import Breadcrumbs from '@/app/ui/global/breadcrumbs';
 import MultiSelectDiv from '@/app/ui/forms/multiselect';
 import AutoInput from '@/app/ui/forms/auto-input';
-import { XMarkIcon, CloudArrowUpIcon } from '@heroicons/react/20/solid';
+import { XMarkIcon, CloudArrowUpIcon, HomeIcon } from '@heroicons/react/20/solid';
 import { categories, types, subCategories } from '@/app/lib/types';
 import { addRecipe, RecipeFormState } from '@/app/lib/actions';
 
-export default function Page() {
+export default function EditForm(
+    { recipeName, recipeID, theIngredients, theInstructions }: 
+    { 
+        recipeName: string, 
+        recipeID: string,
+        theIngredients: string[], 
+        theInstructions: string[] 
+    }) {
+    const links = [
+        { label: 'Dashboard', href: '/dashboard', icon: <HomeIcon className='w-6 h-6' /> },
+        { label: `Edit Recipe: ${recipeName}`, href: `/edit/${recipeID}`, active: true }
+    ];
 
     // States
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [selectedSubCategories, setSelectedSubCategories] = useState([]);
-    const [ingredients, setIngredients] = useState(['']);
-    const [instructions, setInstructions] = useState(['']);
+    const [ingredients, setIngredients] = useState(theIngredients);
+    const [instructions, setInstructions] = useState(theInstructions);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     // Reference to file input element
@@ -64,7 +76,7 @@ export default function Page() {
     }, [formState.success]);
 
     return (
-        <div className="w-full mx-auto lg:w-4/5">
+        <div className="w-full mx-auto my-14 lg:w-4/5">
             {
                 formState.success &&
                 <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -72,7 +84,7 @@ export default function Page() {
                     <span className="block sm:inline">You can now add another recipe. <a href="/dashboard" className="text-white-600 underline">View your recipes here</a></span>
                 </div>
             }
-            <h1 className="hidden lg:block text-xl">Edit Recipe: </h1>
+            <Breadcrumbs breadcrumbs={links} />
             <form action={setFormState} className="mt-4 space-y-6 w-full">
                 <div className="relative mb-3">
                     <label htmlFor="name" className="text-sm font-medium text-gray-500">Recipe Title</label>
@@ -81,7 +93,10 @@ export default function Page() {
                     id="name"
                     type="text"
                     name="name"
-                    placeholder="Type title here" />
+                    placeholder="Type title here" 
+                    value={recipeName}
+                    autoFocus={true}
+                    />
                     {
                         formState.errors?.name && formState.errors.name[0] ? 
                         <span className="text-red-500">{
@@ -208,7 +223,7 @@ export default function Page() {
                         formState.errors.other[0]
                     }<br /></span> : ''
                 }
-                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white-50 font-bold py-2 px-4 rounded">Add Recipe</button>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white-50 font-bold py-2 px-4 rounded">Update Recipe</button>
             </form>
         </div>
     );

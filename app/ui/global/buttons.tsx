@@ -27,7 +27,7 @@ export function Button({ children, className, ...rest }: ButtonProps) {
 export function UpdateRecipe({ id }: { id: string }) {
   return (
     <Link
-      href={`/dashboard/edit/${id}`}
+      href={`/edit/${id}`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />

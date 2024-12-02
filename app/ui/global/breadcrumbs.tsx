@@ -4,6 +4,7 @@ import Link from 'next/link';
 interface Breadcrumb {
   label: string;
   href: string;
+  icon?: React.ReactNode;
   active?: boolean;
 }
 
@@ -19,11 +20,11 @@ export default function Breadcrumbs({
           <li
             key={breadcrumb.href}
             aria-current={breadcrumb.active}
-            className={clsx(
+            className={clsx('flex items-center',
               breadcrumb.active ? 'text-gray-900' : 'text-gray-500',
             )}
           >
-            <Link href={breadcrumb.href}>{breadcrumb.label}</Link>
+            <Link href={breadcrumb.href} className='flex items-center gap-2'>{breadcrumb.icon} {breadcrumb.label}</Link>
             {index < breadcrumbs.length - 1 ? (
               <span className="mx-3 inline-block">/</span>
             ) : null}
