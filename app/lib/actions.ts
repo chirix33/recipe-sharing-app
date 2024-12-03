@@ -9,13 +9,17 @@ import { randomUUID } from 'crypto';
 import { put, del } from '@vercel/blob';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 // Function to authenticate user using form data
 // Use the signIn function from next-auth to authenticate user
 export async function authenticate(prevState: string | undefined, formData: FormData) {
     const loginType = formData.get('type') as string;
     try {
-        await signIn(loginType, formData, { redirectTo: '/dashboard' });
+        await signIn(loginType, formData);
+        // Redirect back to the login page. If the user is authenticated
+        // they will be redirected to the dashboard page by the middleware.
+        redirect('/login');
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {
