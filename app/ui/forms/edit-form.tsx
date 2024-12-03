@@ -11,10 +11,11 @@ import { categories, types, subCategories } from '@/app/lib/types';
 import { addRecipe, RecipeFormState } from '@/app/lib/actions';
 
 export default function EditForm(
-    { recipeName, recipeID, theIngredients, theInstructions }: 
+    { recipeID, recipeName, recipeImage, theIngredients, theInstructions }: 
     { 
-        recipeName: string, 
         recipeID: string,
+        recipeName: string,
+        recipeImage: string,
         theIngredients: string[], 
         theInstructions: string[] 
     }) {
@@ -29,7 +30,7 @@ export default function EditForm(
     const [selectedSubCategories, setSelectedSubCategories] = useState([]);
     const [ingredients, setIngredients] = useState(theIngredients);
     const [instructions, setInstructions] = useState(theInstructions);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(recipeImage);
 
     // Reference to file input element
     // to let it be clicked on whenever the user clicks on the upload box 

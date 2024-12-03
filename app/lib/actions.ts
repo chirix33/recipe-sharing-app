@@ -216,3 +216,7 @@ export async function addRecipe(
 
     return { success: true };
 }
+
+export async function updateRecipe() {
+    return {};
+}

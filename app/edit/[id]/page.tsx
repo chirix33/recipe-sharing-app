@@ -14,8 +14,9 @@ export default async function Page({ params }: { params: { id?: string } }) {
     return (
         <Suspense fallback={<EditFormSkeleton />}>
             <EditForm
-            recipeName={recipe.name}
             recipeID={recipe.id}
+            recipeName={recipe.name}
+            recipeImage={recipe.image}
             theInstructions={recipe.instructions}
             theIngredients={recipe.ingredients}
             />
