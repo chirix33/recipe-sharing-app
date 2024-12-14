@@ -50,7 +50,7 @@ export default function Page() {
     };
 
     // Form Submission
-    const initialFormState: RecipeFormState = {};
+    const initialFormState: RecipeFormState = { errors: {} };
     const addRecipewithStates = addRecipe.bind(null, selectedCategories, selectedTypes, selectedSubCategories, ingredients, instructions);
     const [formState, setFormState] = useFormState(addRecipewithStates, initialFormState);
 
@@ -163,7 +163,7 @@ export default function Page() {
                 <div className="relative mb-3">
                     <div className="flex flex-col items-start">
                         <label className="mb-2 text-sm font-medium text-gray-500">
-                            {imagePreview ? 'Click on the preview to reupload a picture' : 'Upload a picture'}
+                            {imagePreview ? 'Click on the preview to reupload a picture' : 'Upload a picture (max 2MB)'}
                         </label>
                         <div 
                         className="w-52 h-52 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 cursor-pointer"

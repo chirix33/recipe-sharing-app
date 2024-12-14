@@ -182,6 +182,11 @@ export async function addRecipe(
         return { errors: { imagePreview: ['Please upload a valid image file.'] } };
     }
 
+    // If file is greater than 4MB
+    if (file.size > 4 * 1024 * 1024) {
+        return { errors: { imagePreview: ['Please upload an image file less than 2MB.'] } };
+    }
+
     const MealCategories : MealCategory[] = validatedFields.data.categories.map(({ value }) => value as MealCategory);
     const MealTypes : MealType[] = validatedFields.data.types.map(({ value }) => value as MealType);
     const SubCategories : SubCategory[] = validatedFields.data.subCategories.map(({ value }) => value as SubCategory);
