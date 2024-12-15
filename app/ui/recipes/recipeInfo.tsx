@@ -21,7 +21,13 @@ export default async function RecipeInfo({ id } : { id: string }) {
             <Breadcrumbs breadcrumbs={links} />
             <div className="recipe-info w-full lg:w-3/4 mx-auto flex flex-col mt-4">
                 <div className="recipe-image w-full h-96">
-                    <Image src={recipe.image} alt={recipe.name} height={600} width={600} className='w-full h-full object-cover' />
+                    <Image 
+                    priority={true}
+                    src={recipe.image} 
+                    alt={recipe.name} 
+                    height={600} 
+                    width={600} 
+                    className='w-full h-full object-cover' />
                 </div>
                 <div className="my-8">
                     <h2 className="text-2xl text-center">{recipe.name}</h2>

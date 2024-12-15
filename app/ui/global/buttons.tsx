@@ -49,7 +49,7 @@ export function DeleteRecipe({ id }: { id: string }) {
     <>
       <button
         onClick={() => setIsDialogOpen(true)}
-        className="rounded-md border p-2 hover:bg-gray-100"
+        className="rounded-md border p-2 text-red-700 hover:bg-gray-100"
       >
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />

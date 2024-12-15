@@ -41,7 +41,8 @@ export default function Home() {
             alt="Squash Salad" 
             width={360} 
             height={514} 
-            src={`/images/squash_salad.jpg`} 
+            src={`/images/squash_salad.jpg`}
+            priority={true}
             className="object-cover w-full h-full"
           />
         </div>
