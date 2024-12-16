@@ -12,7 +12,7 @@ export default function LoginForm() {
   const [error, formAction, isPending] = useActionState(authenticate, undefined);
   
   if (isPending) {
-    console.log("Pending...");
+    console.log("Pending submission..");
     return <FormSkeleton />;
   } 
   return (
