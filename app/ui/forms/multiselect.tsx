@@ -15,7 +15,7 @@ export default function MultiSelectDiv({
     value: { label: string, value: string }[],
     onChangeEv: Dispatch<SetStateAction<never[]>>,
     labelledBy: string,
-    ClearSelectedIcon: JSX.Element,
+    ClearSelectedIcon: React.ReactElement,
     disableSearch: boolean}) {
         return(
             <div className={classNameDiv}>
