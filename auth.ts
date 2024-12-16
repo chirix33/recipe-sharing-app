@@ -10,7 +10,7 @@ import bcrypt from 'bcryptjs';
 export const authConfig: NextAuthConfig = {
   pages: {
     signIn: '/login',
-    error: '/auth/error',
+    error: '/error',
   },
   providers: [
     Credentials({
@@ -23,7 +23,10 @@ export const authConfig: NextAuthConfig = {
       if (parsedCredentials.success) {
         const { email, password } = parsedCredentials.data;
         const user = await getUser(email);
-        if (!user) return null;
+    
+        if (!user) {
+          return null;
+        }
         
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (isValidPassword) {

@@ -3,13 +3,13 @@
 import { UserCircleIcon, ArrowRightIcon, AtSymbolIcon, KeyIcon, ExclamationCircleIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/app/ui/global/buttons';
 import { GoogleSVG } from '../global/svgs';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import Link from 'next/link';
 import { authenticate, validate, FormState } from '@/app/lib/actions';
 
 export default function CreateForm() {
     const initialState: FormState = {errors: {}};
-    const [updatedFormState, formAction] = useFormState(validate, initialState);
+    const [updatedFormState, formAction, isPending] = useActionState(validate, initialState);
 
     const handleGoogleButtonClick = (e: React.MouseEvent) => {
       // Prevent the form from submitting 
@@ -121,27 +121,27 @@ export default function CreateForm() {
           </Button>
           <div className="flex h-8 items-end space-x-1" aria-live="polite">
           {
-          updatedFormState?.errors?.email && updatedFormState?.errors?.email.map((error) =>
-            <>
+          updatedFormState?.errors?.email && updatedFormState?.errors?.email.map((error, index) =>
+            <p key={index} className='flex gap-2'>
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">{error}</p>
-            </>
+              <span className="text-sm text-red-500">{error}</span>
+            </p>
           )
           }
           {
-          updatedFormState?.errors?.password && updatedFormState?.errors?.password.map((error) =>
-            <>
+          updatedFormState?.errors?.password && updatedFormState?.errors?.password.map((error, index) =>
+            <p key={index} className='flex gap-2'>
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">{error}</p>
-            </>
+              <span className="text-sm text-red-500">{error}</span>
+            </p>
           )
           }
           {
-          updatedFormState?.errors?.cPassword && updatedFormState?.errors?.cPassword.map((error) =>
-            <>
+          updatedFormState?.errors?.cPassword && updatedFormState?.errors?.cPassword.map((error, index) =>
+            <p key={index} className='flex gap-2'>
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">{error}</p>
-            </>
+              <span className="text-sm text-red-500">{error}</span>
+            </p>
           )
           }
         </div>

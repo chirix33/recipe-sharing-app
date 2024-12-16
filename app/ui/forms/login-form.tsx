@@ -3,13 +3,13 @@
 import { ArrowRightIcon, AtSymbolIcon, KeyIcon, ExclamationCircleIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/app/ui/global/buttons';
 import { GoogleSVG } from '../global/svgs';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { authenticate } from '@/app/lib/actions';
 import Link from 'next/link';
 import { FormSkeleton } from '@/app/ui/skeletons/formSkeletons';
 
 export default function LoginForm() {
-  const [error, formAction, isPending] = useFormState(authenticate, undefined);
+  const [error, formAction, isPending] = useActionState(authenticate, undefined);
   
   if (isPending) {
     console.log("Pending...");

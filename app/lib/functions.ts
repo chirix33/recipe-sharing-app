@@ -96,8 +96,9 @@ export async function getAllMeals(limit: number = 0, query: string = ''): Promis
 export async function getUser(email: string): Promise<User | false> {
     if (email === '') return false;
     
-    const user = await sql`SELECT * FROM users WHERE email = ${email}`;
+    const user = await sql`SELECT * FROM users WHERE email = ${email.trim()}`;
     if (user) {
+        console.log("User found:", typeof user.rows[0]);
         return user.rows[0] as User;
     }
     return false;

@@ -4,7 +4,8 @@ import { Suspense } from "react";
 import RecipeList from "../ui/recipes/recipeList";
 import RecipeListSkeleton from "../ui/skeletons/recipeListSkeletons";
 
-export default function Page({ searchParams }:  { searchParams?: {search?: string} }) {
+export default async function Page(props:  { searchParams?: Promise<{search?: string}> }) {
+    const searchParams = await props.searchParams;
     const search = searchParams?.search || '';
     return (
         <>

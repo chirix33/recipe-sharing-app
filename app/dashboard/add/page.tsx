@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import Image from 'next/image';
 import MultiSelectDiv from '@/app/ui/forms/multiselect';
 import AutoInput from '@/app/ui/forms/auto-input';
@@ -52,7 +52,7 @@ export default function Page() {
     // Form Submission
     const initialFormState: RecipeFormState = { errors: {} };
     const addRecipewithStates = addRecipe.bind(null, selectedCategories, selectedTypes, selectedSubCategories, ingredients, instructions);
-    const [formState, setFormState] = useFormState(addRecipewithStates, initialFormState);
+    const [formState, setFormState] = useActionState(addRecipewithStates, initialFormState);
 
     // Clear form when formState.success is true
     useEffect(() => {

@@ -78,15 +78,14 @@ export async function validate(prevState: FormState, formData: FormData) {
             return { errors: { email: ['Email is already in use.'] } };
         }
 
-        // Create the user object and insert it into users.json
         await createUser(name, email, password, 'email');
+        
     } catch (error) {
-        console.error('Failed to validate form:', error);
-        return { errors: { email: ['Failed to validate form.'] } };
+        console.error('Failed to create user:', error);
+        return { errors: { email: ['Failed to create user. Please try again.'] } };
     }
 
-    await signIn("credentials", formData, { redirectTo: '/dashboard' });
-    return { errors: {} };
+    redirect('/login');
 }
 
 // Function to sign out the user
