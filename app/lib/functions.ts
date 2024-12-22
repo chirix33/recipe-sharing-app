@@ -178,6 +178,7 @@ export async function estimateCookTime(ingredients: string[], instructions: stri
 
     try {
         const response = await fetch(`${API_URL}/estimate-recipe-time`, options);
+        console.log(response);
         const data = await response.json();
         
         return data.estimatedTimeInMinutes;
