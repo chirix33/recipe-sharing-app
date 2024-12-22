@@ -158,3 +158,31 @@ export function generatePlaceholder(): string {
     const placeholder = Math.floor(Math.random() * placeholders.length);
     return placeholders[placeholder];
 }
+
+// A function to estimate prep time for a recipe
+export async function estimateCookTime(ingredients: string[], instructions: string[]): Promise<number> {
+    const request_body = {
+        ingredients: ingredients.join(' '),
+        instructions: instructions.join(' ')
+    }
+    const API_URL = 'https://recipeshare-api.azurewebsites.net';
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `${process.env.API_SECRET}`
+        },
+        body: JSON.stringify(request_body)
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/estimate-recipe-time`, options);
+        const data = await response.json();
+        
+        return data.estimatedTimeInMinutes;
+    } catch (e) {
+        console.error('Error estimating cook time:', e);
+        return 0;
+    }
+}

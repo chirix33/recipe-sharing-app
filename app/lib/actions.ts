@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { auth, signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import type { Meal, MealCategory, SubCategory, MealType } from '@/app/lib/types';
-import { getUser, createUser, getRecipeImageURL } from './functions';
+import { getUser, createUser, getRecipeImageURL, estimateCookTime } from './functions';
 import { randomUUID } from 'crypto';
 import { put, del } from '@vercel/blob';
 import { sql } from '@vercel/postgres';
@@ -123,7 +123,8 @@ export type RecipeFormState = {
         imagePreview?: string[] | null,
         other?: string[] | null
     },
-    success?: boolean
+    success?: boolean,
+    prepTime?: number
 } 
 
 // recipe schema
@@ -195,6 +196,7 @@ export async function addRecipe(
     try {
         // Move the image to Vercel Blob
         const blob = await put(`images/${file.name}`, file, { access: "public"});
+        const estimatedCookTime = await estimateCookTime(ingredients, instructions);
 
         // Add the recipe to the database
         const newMeal : Meal = {
@@ -206,11 +208,12 @@ export async function addRecipe(
             subCategory: SubCategories,
             ingredients: validatedFields.data.ingredients,
             instructions: validatedFields.data.instructions,
-            image: blob.url
+            image: blob.url,
+            prepTime: estimatedCookTime
         };
 
-        await sql`INSERT INTO meals (id, name, user_email, category, mealtype, subcategory, ingredients, instructions, image) 
-                        VALUES (${newMeal.id}, ${newMeal.name}, ${newMeal.user_email}, ${JSON.stringify(newMeal.category)}, ${JSON.stringify(newMeal.mealType)}, ${JSON.stringify(newMeal.subCategory)}, ${JSON.stringify(newMeal.ingredients)}, ${JSON.stringify(newMeal.instructions)}, ${newMeal.image})`;
+        await sql`INSERT INTO meals (id, name, user_email, category, mealtype, subcategory, ingredients, instructions, image, preptime) 
+                        VALUES (${newMeal.id}, ${newMeal.name}, ${newMeal.user_email}, ${JSON.stringify(newMeal.category)}, ${JSON.stringify(newMeal.mealType)}, ${JSON.stringify(newMeal.subCategory)}, ${JSON.stringify(newMeal.ingredients)}, ${JSON.stringify(newMeal.instructions)}, ${newMeal.image}, ${newMeal.prepTime})`;
     } catch(error) {
         console.error('Failed to add the recipe:', error);
         return { errors: { other: ['Failed to add the recipe.'] } };

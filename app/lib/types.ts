@@ -25,6 +25,7 @@ export interface Meal {
   ingredients: string[]; // List of ingredients as strings
   instructions: string[]; // Recipe instructions as strings
   image: string; // URL for the meal image
+  prepTime: number; // Time in minutes
 }
 
 // Options for the  multi select componenet in the add recipe form

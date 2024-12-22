@@ -68,7 +68,7 @@ export default function Page() {
             {
                 formState.success &&
                 <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <strong className="font-bold">Recipe added successfully! </strong>
+                    <strong className="font-bold">Recipe added successfully! { formState.prepTime != 0 && <span>The estimated prep time for this recipe is <b>{ formState.prepTime }</b></span> }</strong>
                     <span className="block sm:inline">You can now add another recipe. <a href="/dashboard" className="text-white-600 underline">View your recipes here</a></span>
                 </div>
             }

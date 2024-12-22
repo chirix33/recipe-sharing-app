@@ -62,7 +62,7 @@ export default function Navigation() {
 
           {/* Navbar on Large Screen */}
           <nav className="hidden lg:flex h-full items-center justify-center lg:justify-end">
-            <ul role="navigation" className="list-none pl-0 flex h-full items-center justify-center text-sm lg:text-base">
+            <ul role="navigation" className="list-none pl-0 flex gap-2 h-full items-center justify-center text-sm lg:text-base">
               {
                   links.map(({href, label, icon}) => (
                     <Link 
