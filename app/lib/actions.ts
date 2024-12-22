@@ -212,18 +212,17 @@ export async function addRecipe(
             prepTime: estimatedCookTime
         };
 
-        console.log(newMeal);
-
         await sql`INSERT INTO meals (id, name, user_email, category, mealtype, subcategory, ingredients, instructions, image, preptime) 
-                        VALUES (${newMeal.id}, ${newMeal.name}, ${newMeal.user_email}, ${JSON.stringify(newMeal.category)}, ${JSON.stringify(newMeal.mealType)}, ${JSON.stringify(newMeal.subCategory)}, ${JSON.stringify(newMeal.ingredients)}, ${JSON.stringify(newMeal.instructions)}, ${newMeal.image}, ${newMeal.prepTime})`;
+        VALUES (${newMeal.id}, ${newMeal.name}, ${newMeal.user_email}, ${JSON.stringify(newMeal.category)}, ${JSON.stringify(newMeal.mealType)}, ${JSON.stringify(newMeal.subCategory)}, ${JSON.stringify(newMeal.ingredients)}, ${JSON.stringify(newMeal.instructions)}, ${newMeal.image}, ${newMeal.prepTime})`;
+        
+        console.log("Recipe added successfully.");
+        return { success: true, prepTime: newMeal.prepTime };
+
     } catch(error) {
         console.error('Failed to add the recipe:', error);
         return { errors: { other: ['Failed to add the recipe.'] } };
     }
-
-    console.log("Recipe added successfully.");
-
-    return { success: true };
+    
 }
 
 export async function updateRecipe() {
