@@ -212,6 +212,8 @@ export async function addRecipe(
             prepTime: estimatedCookTime
         };
 
+        console.log(newMeal);
+
         await sql`INSERT INTO meals (id, name, user_email, category, mealtype, subcategory, ingredients, instructions, image, preptime) 
                         VALUES (${newMeal.id}, ${newMeal.name}, ${newMeal.user_email}, ${JSON.stringify(newMeal.category)}, ${JSON.stringify(newMeal.mealType)}, ${JSON.stringify(newMeal.subCategory)}, ${JSON.stringify(newMeal.ingredients)}, ${JSON.stringify(newMeal.instructions)}, ${newMeal.image}, ${newMeal.prepTime})`;
     } catch(error) {
