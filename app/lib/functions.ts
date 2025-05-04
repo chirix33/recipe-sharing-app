@@ -178,9 +178,19 @@ export async function estimateCookTime(ingredients: string[], instructions: stri
 
     try {
         const response = await fetch(`${API_URL}/estimate-recipe-time`, options);
-        console.log(response);
+        if (!response.ok) {
+            console.error('API call failed with status:', response.status);
+            console.error('Response:', response.text());
+            return 0; // Return 0 if the API call fails
+        }
+
         const data = await response.json();
-        
+
+        if (!data || typeof data.estimatedTimeInMinutes !== 'number') {
+            console.error('Invalid response from API:', data);
+            return 0; // Return 0 if the response is invalid
+        }
+
         return data.estimatedTimeInMinutes;
     } catch (e) {
         console.error('Error estimating cook time:', e);
