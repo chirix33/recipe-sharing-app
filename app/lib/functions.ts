@@ -165,7 +165,7 @@ export async function estimateCookTime(ingredients: string[], instructions: stri
         ingredients: ingredients.join(' '),
         instructions: instructions.join(' ')
     }
-    const API_URL = 'https://recipeshare-api.azurewebsites.net';
+    const API_URL = process.env.RECIPESHARE_API_URL;
     const options = {
         method: 'POST',
         headers: {
