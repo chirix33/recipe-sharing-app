@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from "@/auth";
 
-const session = await auth();
 
 export const estimateRecipeTimeSchema = z.object({
     estimatedTimeInMinutes: z.number().min(1, 
@@ -16,6 +15,8 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+    const session = await auth();
+
     if (!session) {
         return NextResponse.json({ error: 'Not Authenticated' }, { status: 500 });
     }
