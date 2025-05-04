@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from "@/auth";
 
 
-export const estimateRecipeTimeSchema = z.object({
+const estimateRecipeTimeSchema = z.object({
     estimatedTimeInMinutes: z.number().min(1, 
         'Estimated time must be at least 1 minute'),
 });
