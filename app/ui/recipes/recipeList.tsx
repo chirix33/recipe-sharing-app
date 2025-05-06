@@ -7,7 +7,7 @@ export default async function RecipeList({ query }: { query?: string }) {
     if (query) {
         meals = await getAllMeals(0, query);
     } else {
-        meals = await getAllMeals(10);
+        meals = await getAllMeals(30);
     }
 
     return(

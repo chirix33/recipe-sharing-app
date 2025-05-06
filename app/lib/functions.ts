@@ -116,7 +116,7 @@ export async function getRecipeImageURL(recipeId: string): Promise<string | fals
 
 export async function getRecipe(id: string): Promise<QueryResultRow | false> {
     try {
-        const recipe = await sql`SELECT meals.id, meals.name, meals.category, meals.mealtype, meals.subcategory, meals.ingredients, meals.instructions, meals.image, users.name AS chef FROM meals JOIN users ON meals.user_email = users.email WHERE meals.id = ${id}`;
+        const recipe = await sql`SELECT meals.id, meals.name, meals.category, meals.mealtype, meals.subcategory, meals.ingredients, meals.instructions, meals.image, meals.preptime, users.name AS chef FROM meals JOIN users ON meals.user_email = users.email WHERE meals.id = ${id}`;
         return recipe.rows[0];
     } catch (error) {
         console.error('Failed to get recipe:', error);

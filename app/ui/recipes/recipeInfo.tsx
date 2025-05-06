@@ -32,6 +32,9 @@ export default async function RecipeInfo({ id } : { id: string }) {
                 <div className="my-8">
                     <h2 className="text-2xl text-center">{recipe.name}</h2>
                     <p className="text-sm text-center">By: {recipe.chef}</p>
+                    {
+                        recipe.preptime != 0  && <p className="mt-4 text-base text-center font-bold">Prep Time: ~{recipe.preptime} minutes</p>
+                    }
                 </div>
                 <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <div>
