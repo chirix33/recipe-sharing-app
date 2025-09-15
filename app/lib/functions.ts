@@ -29,17 +29,16 @@ export async function createUser(name: string, email: string, password: string, 
     // Create the user object and insert it into users.json
     const color = generateColor();
     const picture = `https://api.dicebear.com/9.x/adventurer/svg?seed=${name}&flip=true&backgroundColor=${color}`;
-   try {
-        // Hash the password
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(password, salt, async (err, hash) => {
-                // Insert the user into the database
-                await sql`INSERT INTO users (id, name, email, password, image, accounttype) VALUES (${id}, ${name}, ${email}, ${hash}, ${picture}, ${accountType})`;
-            });
-        });
-   } catch (error) {
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await sql`INSERT INTO users (id, name, email, password, image, accounttype) VALUES (${id}, ${name}, ${email}, ${hashedPassword}, ${picture}, ${accountType})`;
+    } catch (error) {
         console.error('Failed to create user:', error);
-   }
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error('Failed to create user');
+    }
 }
 
 export async function getUserMeals(userEmail: string): Promise<Array<QueryResultRow>> {
