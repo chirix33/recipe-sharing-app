@@ -4,12 +4,17 @@ import Image from 'next/image';
 import { capitalize } from '@/app/lib/functions';
 import { ClipboardDocumentListIcon, FlagIcon } from '@heroicons/react/20/solid';
 import { getRecipe } from "@/app/lib/functions";
+import ReviewsSection from './ReviewsSection';
+import { auth } from '@/auth';
 
 export default async function RecipeInfo({ id } : { id: string }) {
     const recipe = await getRecipe(id);
     if (!recipe) {
         notFound();
     }
+
+    const session = await auth();
+    const currentUserEmail = session?.user?.email;
 
     const links = [
         { label: 'Recipes', href: '/recipes' },
@@ -79,6 +84,12 @@ export default async function RecipeInfo({ id } : { id: string }) {
                     ))}
                 </ul>
             </div>
+            
+            {/* Reviews Section */}
+            <ReviewsSection 
+                recipeId={id} 
+                currentUserEmail={currentUserEmail} 
+            />
         </div>
     )
 }

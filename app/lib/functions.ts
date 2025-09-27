@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import type { User } from './types';
+import type { User, RecipeReview, RecipeRating, RecipeStats } from './types';
 import { QueryResultRow, sql } from '@vercel/postgres';
 import bcrypt from 'bcryptjs';
 
@@ -195,5 +195,129 @@ export async function estimateCookTime(ingredients: string[], instructions: stri
     } catch (e) {
         console.error('Error estimating cook time:', e);
         return 0;
+    }
+}
+
+// Rating and Review Functions
+export async function addRecipeReview(
+    recipeId: string, 
+    userEmail: string, 
+    userName: string, 
+    userImage: string,
+    rating: number, 
+    title: string, 
+    comment: string, 
+    photos: string[]
+): Promise<boolean> {
+    try {
+        const reviewId = randomUUID();
+        const now = new Date().toISOString();
+        
+        await sql`
+            INSERT INTO recipe_reviews 
+            (id, recipe_id, user_email, user_name, user_image, rating, title, comment, photos, helpful_votes, created_at, updated_at)
+            VALUES (${reviewId}, ${recipeId}, ${userEmail}, ${userName}, ${userImage}, ${rating}, ${title}, ${comment}, ${JSON.stringify(photos)}, 0, ${now}, ${now})
+        `;
+        
+        return true;
+    } catch (error) {
+        console.error('Failed to add recipe review:', error);
+        return false;
+    }
+}
+
+export async function getRecipeReviews(recipeId: string): Promise<RecipeReview[]> {
+    try {
+        const reviews = await sql`
+            SELECT * FROM recipe_reviews 
+            WHERE recipe_id = ${recipeId} 
+            ORDER BY created_at DESC
+        `;
+        return reviews.rows as RecipeReview[];
+    } catch (error) {
+        console.error('Failed to get recipe reviews:', error);
+        return [];
+    }
+}
+
+export async function getRecipeStats(recipeId: string): Promise<RecipeStats | null> {
+    try {
+        const stats = await sql`
+            SELECT 
+                AVG(rating) as average_rating,
+                COUNT(*) as total_reviews,
+                COUNT(CASE WHEN rating = 5 THEN 1 END) as rating_5,
+                COUNT(CASE WHEN rating = 4 THEN 1 END) as rating_4,
+                COUNT(CASE WHEN rating = 3 THEN 1 END) as rating_3,
+                COUNT(CASE WHEN rating = 2 THEN 1 END) as rating_2,
+                COUNT(CASE WHEN rating = 1 THEN 1 END) as rating_1
+            FROM recipe_reviews 
+            WHERE recipe_id = ${recipeId}
+        `;
+        
+        if (stats.rows.length === 0) {
+            return null;
+        }
+        
+        const row = stats.rows[0];
+        return {
+            average_rating: parseFloat(row.average_rating) || 0,
+            total_reviews: parseInt(row.total_reviews) || 0,
+            rating_distribution: {
+                5: parseInt(row.rating_5) || 0,
+                4: parseInt(row.rating_4) || 0,
+                3: parseInt(row.rating_3) || 0,
+                2: parseInt(row.rating_2) || 0,
+                1: parseInt(row.rating_1) || 0,
+            }
+        };
+    } catch (error) {
+        console.error('Failed to get recipe stats:', error);
+        return null;
+    }
+}
+
+export async function getUserReviewForRecipe(recipeId: string, userEmail: string): Promise<RecipeReview | null> {
+    try {
+        const review = await sql`
+            SELECT * FROM recipe_reviews 
+            WHERE recipe_id = ${recipeId} AND user_email = ${userEmail}
+        `;
+        return review.rows[0] as RecipeReview || null;
+    } catch (error) {
+        console.error('Failed to get user review:', error);
+        return null;
+    }
+}
+
+export async function updateReviewHelpfulVotes(reviewId: string, increment: boolean = true): Promise<boolean> {
+    try {
+        if (increment) {
+            await sql`
+                UPDATE recipe_reviews 
+                SET helpful_votes = helpful_votes + 1 
+                WHERE id = ${reviewId}
+            `;
+        } else {
+            await sql`
+                UPDATE recipe_reviews 
+                SET helpful_votes = GREATEST(helpful_votes - 1, 0) 
+                WHERE id = ${reviewId}
+            `;
+        }
+        return true;
+    } catch (error) {
+        console.error('Failed to update helpful votes:', error);
+        return false;
+    }
+}
+
+export async function deleteRecipeReview(reviewId: string): Promise<boolean> {
+    try {
+        await sql`DELETE FROM recipe_reviews WHERE id = ${reviewId}`;
+        return true;
+    } catch (error) {
+        console.error('Failed to delete recipe review:', error);
+        return false;
     }
 }
