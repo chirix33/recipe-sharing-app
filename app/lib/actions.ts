@@ -3,8 +3,8 @@
 import { z } from 'zod';
 import { auth, signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
-import type { Meal, MealCategory, SubCategory, MealType } from '@/app/lib/types';
-import { getUser, createUser, getRecipeImageURL, estimateCookTime } from './functions';
+import type { Meal, MealCategory, SubCategory, MealType, ReviewFormData } from '@/app/lib/types';
+import { getUser, createUser, getRecipeImageURL, estimateCookTime, addRecipeReview, updateReviewHelpfulVotes, deleteRecipeReview } from './functions';
 import { randomUUID } from 'crypto';
 import { put, del } from '@vercel/blob';
 import { sql } from '@vercel/postgres';
@@ -227,4 +227,126 @@ export async function addRecipe(
 
 export async function updateRecipe() {
     return {};
+}
+
+// Review Form State
+export type ReviewFormState = {
+    errors?: {
+        rating?: string[],
+        title?: string[],
+        comment?: string[],
+        photos?: string[],
+        other?: string[]
+    },
+    success?: boolean
+}
+
+// Review schema
+const reviewSchema = z.object({
+    rating: z.number().min(1, { message: 'Please select a rating.' }).max(5, { message: 'Rating must be between 1 and 5.' }),
+    title: z.string().min(3, { message: 'Title must be at least 3 characters long.' }).max(100, { message: 'Title must be less than 100 characters.' }),
+    comment: z.string().min(10, { message: 'Comment must be at least 10 characters long.' }).max(1000, { message: 'Comment must be less than 1000 characters.' }),
+});
+
+export async function submitReview(
+    recipeId: string,
+    prevState: ReviewFormState,
+    formData: FormData,
+): Promise<ReviewFormState> {
+    const session = await auth();
+    if (!session?.user?.email) {
+        return { errors: { other: ['You must be logged in to submit a review.'] } };
+    }
+
+    const rating = parseInt(formData.get('rating') as string);
+    const title = formData.get('title') as string;
+    const comment = formData.get('comment') as string;
+    const photos = formData.getAll('photos') as File[];
+
+    const validatedFields = reviewSchema.safeParse({
+        rating,
+        title,
+        comment
+    });
+
+    if (!validatedFields.success) {
+        return { errors: validatedFields.error.flatten().fieldErrors };
+    }
+
+    // Validate photos
+    const validPhotos: string[] = [];
+    for (const photo of photos) {
+        if (photo.size > 0) {
+            const fileExtension = photo.name.split('.').pop()?.toLowerCase();
+            if (!['jpg', 'jpeg', 'png', 'webp'].includes(fileExtension!)) {
+                return { errors: { photos: ['Please upload valid image files (jpg, jpeg, png, webp).'] } };
+            }
+            if (photo.size > 5 * 1024 * 1024) {
+                return { errors: { photos: ['Please upload image files less than 5MB each.'] } };
+            }
+        }
+    }
+
+    try {
+        // Upload photos to Vercel Blob
+        for (const photo of photos) {
+            if (photo.size > 0) {
+                const blob = await put(`review-photos/${randomUUID()}-${photo.name}`, photo, { access: "public" });
+                validPhotos.push(blob.url);
+            }
+        }
+
+        // Add review to database
+        const success = await addRecipeReview(
+            recipeId,
+            session.user.email,
+            session.user.name || 'Anonymous',
+            session.user.image || '',
+            rating,
+            title,
+            comment,
+            validPhotos
+        );
+
+        if (success) {
+            revalidatePath(`/recipes/${recipeId}`);
+            return { success: true };
+        } else {
+            return { errors: { other: ['Failed to submit review. Please try again.'] } };
+        }
+    } catch (error) {
+        console.error('Failed to submit review:', error);
+        return { errors: { other: ['Failed to submit review. Please try again.'] } };
+    }
+}
+
+export async function voteReviewHelpful(reviewId: string, increment: boolean = true): Promise<boolean> {
+    try {
+        const success = await updateReviewHelpfulVotes(reviewId, increment);
+        if (success) {
+            revalidatePath('/recipes');
+        }
+        return success;
+    } catch (error) {
+        console.error('Failed to vote on review:', error);
+        return false;
+    }
+}
+
+export async function deleteReview(reviewId: string, recipeId: string): Promise<boolean> {
+    const session = await auth();
+    if (!session?.user?.email) {
+        return false;
+    }
+
+    try {
+        const success = await deleteRecipeReview(reviewId);
+        if (success) {
+            revalidatePath(`/recipes/${recipeId}`);
+        }
+        return success;
+    } catch (error) {
+        console.error('Failed to delete review:', error);
+        return false;
+    }
 }

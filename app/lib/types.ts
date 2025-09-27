@@ -59,3 +59,46 @@ export const subCategories = [
   { label: "Kosher", value: "kosher" },
   { label: "Halal", value: "halal" }
 ];
+
+// Rating and Review Types
+export interface RecipeRating {
+  id: string;
+  recipe_id: string;
+  user_email: string;
+  rating: number; // 1-5 stars
+  created_at: string;
+}
+
+export interface RecipeReview {
+  id: string;
+  recipe_id: string;
+  user_email: string;
+  user_name: string;
+  user_image: string;
+  rating: number; // 1-5 stars
+  title: string;
+  comment: string;
+  photos: string[]; // URLs to review photos
+  helpful_votes: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ReviewFormData {
+  rating: number;
+  title: string;
+  comment: string;
+  photos: File[];
+}
+
+export interface RecipeStats {
+  average_rating: number;
+  total_reviews: number;
+  rating_distribution: {
+    5: number;
+    4: number;
+    3: number;
+    2: number;
+    1: number;
+  };
+}
