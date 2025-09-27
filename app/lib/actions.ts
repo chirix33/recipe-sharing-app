@@ -276,9 +276,9 @@ export async function submitReview(
     // Validate photos
     const validPhotos: string[] = [];
     for (const photo of photos) {
-        if (photo.size > 0) {
+        if (photo && photo.size > 0) {
             const fileExtension = photo.name.split('.').pop()?.toLowerCase();
-            if (!['jpg', 'jpeg', 'png', 'webp'].includes(fileExtension!)) {
+            if (!fileExtension || !['jpg', 'jpeg', 'png', 'webp'].includes(fileExtension)) {
                 return { errors: { photos: ['Please upload valid image files (jpg, jpeg, png, webp).'] } };
             }
             if (photo.size > 5 * 1024 * 1024) {
@@ -290,7 +290,7 @@ export async function submitReview(
     try {
         // Upload photos to Vercel Blob
         for (const photo of photos) {
-            if (photo.size > 0) {
+            if (photo && photo.size > 0) {
                 const blob = await put(`review-photos/${randomUUID()}-${photo.name}`, photo, { access: "public" });
                 validPhotos.push(blob.url);
             }

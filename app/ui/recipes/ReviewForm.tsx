@@ -23,39 +23,84 @@ export default function ReviewForm({ recipeId }: ReviewFormProps) {
   const [rating, setRating] = useState(0);
   const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
+  const [photoError, setPhotoError] = useState<string>('');
+  const [isLoadingPhotos, setIsLoadingPhotos] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handlePhotoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhotoError(''); // Clear any previous errors
+    
     const files = Array.from(e.target.files || []);
+    
+    // Handle case where no files are selected
+    if (files.length === 0) {
+      return;
+    }
+    
     const validFiles = files.filter(file => {
       const fileExtension = file.name.split('.').pop()?.toLowerCase();
-      return ['jpg', 'jpeg', 'png', 'webp'].includes(fileExtension!);
+      return fileExtension && ['jpg', 'jpeg', 'png', 'webp'].includes(fileExtension);
     });
 
+    // Check for invalid file types
+    const invalidFiles = files.filter(file => {
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      return !fileExtension || !['jpg', 'jpeg', 'png', 'webp'].includes(fileExtension);
+    });
+
+    if (invalidFiles.length > 0) {
+      setPhotoError(`Invalid file types: ${invalidFiles.map(f => f.name).join(', ')}. Please upload only JPG, PNG, or WebP images.`);
+      return;
+    }
+
     if (validFiles.length + selectedPhotos.length > 3) {
-      alert('You can only upload up to 3 photos');
+      setPhotoError('You can only upload up to 3 photos');
+      return;
+    }
+
+    // Check file sizes
+    const oversizedFiles = validFiles.filter(file => file.size > 5 * 1024 * 1024);
+    if (oversizedFiles.length > 0) {
+      setPhotoError(`Files too large: ${oversizedFiles.map(f => f.name).join(', ')}. Please upload files smaller than 5MB each.`);
       return;
     }
 
     setSelectedPhotos(prev => [...prev, ...validFiles]);
     
     // Create previews
+    setIsLoadingPhotos(true);
+    let loadedCount = 0;
     validFiles.forEach(file => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setPhotoPreviews(prev => [...prev, e.target?.result as string]);
+        loadedCount++;
+        if (loadedCount === validFiles.length) {
+          setIsLoadingPhotos(false);
+        }
       };
       reader.readAsDataURL(file);
     });
+
+    // Clear the input so the same file can be selected again if needed
+    e.target.value = '';
   };
 
   const removePhoto = (index: number) => {
     setSelectedPhotos(prev => prev.filter((_, i) => i !== index));
     setPhotoPreviews(prev => prev.filter((_, i) => i !== index));
+    setPhotoError(''); // Clear any photo errors when removing photos
   };
 
   const handleSubmit = (formData: FormData) => {
+    setPhotoError(''); // Clear any photo errors
     formData.append('rating', rating.toString());
+    
+    // Add selected photos directly to FormData
+    selectedPhotos.forEach((photo) => {
+      formData.append('photos', photo);
+    });
+    
     formAction(formData);
     
     if (formState.success) {
@@ -77,7 +122,11 @@ export default function ReviewForm({ recipeId }: ReviewFormProps) {
     <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6">
       <h3 className="text-lg font-semibold mb-4">Write a Review</h3>
       
-      <form action={handleSubmit} className="space-y-4">
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        handleSubmit(formData);
+      }} className="space-y-4">
         {/* Rating */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -147,10 +196,11 @@ export default function ReviewForm({ recipeId }: ReviewFormProps) {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+              disabled={isLoadingPhotos}
+              className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <PhotoIcon className="w-5 h-5" />
-              Add Photos (up to 3)
+              {isLoadingPhotos ? 'Loading...' : 'Add Photos (up to 3)'}
             </button>
             
             {photoPreviews.length > 0 && (
@@ -176,28 +226,16 @@ export default function ReviewForm({ recipeId }: ReviewFormProps) {
               </div>
             )}
           </div>
+          
+          {/* Photo Error Display */}
+          {photoError && (
+            <p className="text-red-500 text-sm mt-1">{photoError}</p>
+          )}
           {formState.errors?.photos && (
             <p className="text-red-500 text-sm mt-1">{formState.errors.photos[0]}</p>
           )}
         </div>
 
-        {/* Hidden file inputs for form submission */}
-        {selectedPhotos.map((photo, index) => (
-          <input
-            key={index}
-            type="file"
-            name="photos"
-            style={{ display: 'none' }}
-            // This is a workaround to include files in form submission
-            ref={(el) => {
-              if (el) {
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(photo);
-                el.files = dataTransfer.files;
-              }
-            }}
-          />
-        ))}
 
         {/* Submit Button */}
         <div className="flex justify-end">
